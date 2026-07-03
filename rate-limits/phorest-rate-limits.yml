@@ -1,0 +1,74 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Phorest
+providerId: phorest
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Salon Software
+- Spa Software
+- Rate Limiting
+- Quotas
+description: >-
+  Phorest's public API reference documents a flat, uniform rate limit across
+  the entire third-party API: 100 requests per second, returned as a 429
+  response when exceeded. This limit is stated identically on every
+  documented endpoint (clients, appointments, staff, services, products,
+  purchases, vouchers, and reporting) rather than varying per resource.
+  Phorest does not publish webhooks; the getting-started guide explicitly
+  recommends polling instead, so integrators are expected to design polling
+  intervals against this same 100 rps ceiling. The Staff Work Time Tables
+  endpoint is called out as an exception to pagination (not rate limiting) -
+  it always returns the full result set for a date range with no size/page
+  support.
+notes: >-
+  No burst allowance, monthly quota, or per-plan tiering is documented beyond
+  the flat 100 rps ceiling; all evidence comes directly from the 429 response
+  descriptions repeated across Phorest's public API reference pages.
+sources:
+- https://developer.phorest.com/reference/getappointments
+- https://developer.phorest.com/reference/getclients
+- https://developer.phorest.com/reference/createbooking
+- https://developer.phorest.com/reference/createpurchase
+- https://developer.phorest.com/reference/getvouchers
+- https://developer.phorest.com/docs/getting-started
+responseCodes:
+  throttled: 429
+limits:
+- name: Global API Requests
+  scope: account
+  metric: requests
+  limit: 100 per second
+  notes: Stated as "Request rate limit exceeded. Current limit set to 100 rps" identically across all documented endpoints.
+- name: Appointments List Range
+  scope: endpoint
+  metric: days
+  limit: 1 month per request
+  notes: The appointments list endpoint accepts at most a one-month from_date/to_date window per call.
+- name: Pagination Size
+  scope: endpoint
+  metric: records
+  limit: 100 per page (default 20)
+  notes: Most list endpoints support size (max 100) and page (zero-indexed) query parameters.
+- name: Staff Work Time Tables
+  scope: endpoint
+  metric: records
+  limit: unbounded (no pagination)
+  notes: This endpoint does not support pagination and always returns all records for the given date range.
+- name: Booking Note Length
+  scope: field
+  metric: characters
+  limit: 50000
+  notes: The booking/appointment note field is capped at 50,000 characters.
+policies:
+- name: Polling Over Webhooks
+  description: Phorest does not support webhooks; the getting-started guide directs integrators to poll list endpoints (e.g. by updatedAfter/updatedFrom timestamps) instead.
+- name: Basic Auth Per Request
+  description: Every request carries HTTP Basic credentials; there is no OAuth token bucket or per-token limit distinct from the flat 100 rps account ceiling.
+- name: Regional Gateway Isolation
+  description: EU and US/AUS traffic is served from separate regional gateways (api-gateway-eu vs api-gateway-us); the 100 rps limit is documented per gateway/business, not globally pooled across regions.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

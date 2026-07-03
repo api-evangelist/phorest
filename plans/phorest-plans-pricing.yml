@@ -1,0 +1,206 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Phorest
+providerId: phorest
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Salon Software
+- Spa Software
+- Business Management
+- Plans
+description: >-
+  Phorest sells its salon/spa management platform on a per-business, quote-based
+  subscription - not a published self-serve price list. Salon/spa businesses
+  choose among Starter, Grow, Complete Advantage (Phorest's "most popular"
+  tier), and Elite; med-spa businesses choose between Core Aesthetics and
+  Elevate Aesthetics. All tiers include unlimited devices and unlimited staff
+  logins; higher tiers add online reputation management, staff goals, client
+  referrals, salon-branded iOS/Android apps, two-way SMS, and memberships.
+  Every plan meters outbound SMS at a discounted per-message rate, with a
+  monthly free-SMS allowance that scales by tier. The Phorest API itself
+  carries no separate published fee - it operates against the same account
+  and business/branch data the salon already pays for - but third-party
+  software vendors integrating with Phorest as a partner may be charged an
+  integration fee, and Phorest separately charges a small per-booking fee on
+  bookings made through Online Booking.
+notes: >-
+  Exact monthly prices are not published; Phorest requires a sales
+  conversation and quote based on business size, location count, and selected
+  modules. Figures here are reconstructed from Phorest's public pricing page
+  tier/feature descriptions and third-party pricing writeups, not from an
+  official rate card - verify current tiers and rates directly with Phorest
+  sales during reconciliation.
+sources:
+- https://www.phorest.com/us/pricing/
+- https://support.phorest.com/hc/en-us/articles/360018509300-Getting-Started-with-Phorest-API
+- https://support.phorest.com/hc/en-us/categories/7555147411218-Integrations-Phorest-API
+plans:
+- id: phorest-starter
+  name: Starter
+  type: paid
+  description: >-
+    Entry salon/spa tier - appointment scheduling, point of sale, online
+    booking, and core marketing tools, billed on a custom quote.
+  entries:
+  - label: Monthly Subscription
+    name: starter_subscription
+    type: flat
+    metric: business
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: custom quote (third-party estimates place entry pricing around $69-150/mo)
+    userMultiplied: false
+  - label: SMS
+    name: starter_sms
+    type: usage
+    metric: messages
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: "~5 cents per SMS above included allowance"
+    userMultiplied: false
+  elements:
+  - name: Unlimited Devices
+  - name: Unlimited Staff
+  - name: Appointment Scheduling
+  - name: Point of Sale
+  - name: Online Booking
+  - name: Marketing Tools
+- id: phorest-grow
+  name: Grow
+  type: paid
+  description: >-
+    Adds digital consultation forms, loyalty programs, an online store, and
+    expert recommendations on top of Starter.
+  entries:
+  - label: Monthly Subscription
+    name: grow_subscription
+    type: flat
+    metric: business
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: custom quote
+    userMultiplied: false
+  elements:
+  - name: Digital Consultation Forms
+  - name: Loyalty Program
+  - name: Online Store
+  - name: Expert Recommendations
+  - name: Increased Free SMS Allowance
+- id: phorest-complete-advantage
+  name: Complete Advantage
+  type: paid
+  description: >-
+    Phorest's "most popular" salon/spa tier - adds online reputation
+    management, staff goals, and client referrals.
+  entries:
+  - label: Monthly Subscription
+    name: complete_advantage_subscription
+    type: flat
+    metric: business
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: custom quote
+    userMultiplied: false
+  elements:
+  - name: Online Reputation Management
+  - name: Staff Goals
+  - name: Client Referrals
+- id: phorest-elite
+  name: Elite
+  type: paid
+  description: >-
+    Top salon/spa tier - salon-branded iOS/Android apps, two-way SMS, and
+    memberships.
+  entries:
+  - label: Monthly Subscription
+    name: elite_subscription
+    type: flat
+    metric: business
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: custom quote
+    userMultiplied: false
+  elements:
+  - name: Salon-Branded iOS/Android App
+  - name: Two-Way SMS
+  - name: Memberships
+  - name: Highest Free SMS Allowance
+- id: phorest-medspa
+  name: Core Aesthetics / Elevate Aesthetics (MedSpa)
+  type: paid
+  description: >-
+    Parallel two-tier MedSpa product line, mirroring the salon/spa Starter-to-Elite
+    progression but tailored to injectables/aesthetics workflows.
+  entries:
+  - label: Monthly Subscription
+    name: medspa_subscription
+    type: flat
+    metric: business
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: custom quote
+    userMultiplied: false
+  elements:
+  - name: Aesthetics-Specific Charting
+  - name: Consent Forms
+  - name: Membership and Package Management
+- id: phorest-api-access
+  name: Phorest API Access (Partner-Gated)
+  type: addon
+  description: >-
+    Access to the Phorest third-party API is requested through Phorest
+    support and layered on top of an existing subscription; there is no
+    separate published API subscription fee for the salon. Third-party
+    software vendors seeking a certified partner integration may be subject
+    to a separate integration charge from Phorest.
+  entries:
+  - label: API Access
+    name: api_access
+    type: flat
+    metric: account
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: included with an existing Phorest subscription; partner integration fees are negotiated separately
+    userMultiplied: false
+  elements:
+  - name: Basic-Authenticated REST Access
+  - name: Client, Appointment, Staff, Service, Product, Purchase, Voucher Data
+- id: phorest-online-booking-fee
+  name: Online Booking Per-Booking Fee
+  type: usage
+  description: >-
+    A small per-booking fee applied to bookings made through Phorest Online
+    Booking, separate from the monthly subscription.
+  entries:
+  - label: Per Online Booking
+    name: online_booking_fee
+    type: usage
+    metric: bookings
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: "~$1 USD/CAD, ~$1.25 AUD, ~GBP 0.60-1.50 depending on region and booking value"
+    userMultiplied: false
+  elements:
+  - name: Online Booking Widget
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

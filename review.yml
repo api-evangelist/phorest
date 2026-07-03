@@ -1,0 +1,134 @@
+aid: phorest
+name: Phorest
+review:
+  question: Does Phorest expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Phorest's own third-party API surface
+    is request/response REST over HTTPS with HTTP Basic authentication; there
+    is no server-push transport (WebSocket or SSE) on Phorest's own API to
+    model. The one asynchronous-flavored mechanism found - a purchase event
+    optionally published to a partner-provisioned AWS SQS queue, per Phorest's
+    public github.com/phorest/sqs-sample reference project - is an
+    integrator-owned AWS resource, not an endpoint Phorest hosts or documents
+    in its API reference, so it is out of scope for a Phorest AsyncAPI
+    document.
+findings:
+  summary: |
+    Phorest does not publish a documented public WebSocket API. The Phorest
+    API (sometimes called Phorest Connect by partners) is a partner-gated
+    REST API: access is granted on request via api-requests@phorest.com,
+    authenticated with HTTP Basic auth (username format global/{email}), and
+    scoped in the URL path to a businessId and branchId. All ~70 documented
+    reference endpoints - clients, appointments, bookings, staff, services,
+    products, purchases, vouchers, loyalty, branches, and reporting - are
+    plain HTTPS request/response REST calls returning JSON. Phorest's own
+    getting-started documentation states plainly that webhooks are not
+    currently supported and recommends polling (via updatedAfter/updatedFrom
+    timestamp filters) instead. No realtime, bidirectional, or streaming
+    WebSocket (ws:// or wss://) endpoint is documented anywhere in Phorest's
+    public API reference, support articles, or GitHub organization.
+  accessModel: |
+    There is no self-serve developer signup or sandbox account creation flow.
+    A business (or its integration partner) must email Phorest support with
+    the business's Phorest Account Number to request API credentials.
+    Third-party software vendors seeking a certified partner integration may
+    be charged a separate integration fee. This repository's OpenAPI document
+    is transcribed from Phorest's public reference pages at
+    developer.phorest.com/reference (accessible without credentials as
+    documentation, even though calling the live API requires granted access);
+    a minority of item-level GET/PUT/DELETE sub-paths are modeled by strict
+    convention from confirmed collection-level siblings because Phorest's
+    public reference text does not spell out every single-resource path
+    verbatim.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+      documented: true
+      note: EU production gateway. US/AUS traffic is served from api-gateway-us.phorest.com; a platform.phorest.com alias for the EU gateway also appears in Phorest support articles.
+    - protocol: Polling
+      scheme: https
+      documented: true
+      note: Phorest explicitly recommends polling list endpoints via updatedAfter/updatedFrom filters in place of webhooks.
+    - protocol: AWS SQS
+      scheme: n/a
+      documented: true
+      note: Purchase creation can optionally publish an event onto an AWS SQS queue provisioned and owned by the integrating partner, per Phorest's public sqs-sample GitHub reference project. This is a partner-hosted AWS resource, not a Phorest-hosted realtime endpoint, and is not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Phorest's getting-started guide, API reference, support articles, or GitHub organization as of the review date.
+  endpointsConfirmedRest:
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/client
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/client
+    - PUT  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/client/{clientId}
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/category/client
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/appointment
+    - PUT  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/appointment/{appointmentId}
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/appointments/availability
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/booking
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/staff
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/staff-work-time-table
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/service/{serviceId}
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/service-category
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/package
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/service-special-offer
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/course
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/room
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/machine
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/taxrate
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/product
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/inventorytransaction
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/stock/adjustment
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/purchase
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/till/{tillId}/balance
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/salefee
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/voucher
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/voucher
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/voucher/{voucherId}
+    - PUT  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/voucher/{voucherId}
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/loyaltypoints
+    - POST https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/csvexportjob
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/review
+    - GET  https://api-gateway-eu.phorest.com/third-party-api-server/api/business/{businessId}/branch/{branchId}/leads
+sources:
+  - url: https://developer.phorest.com/docs/getting-started
+    type: Documentation
+    note: Base auth scheme, EU/US server selection, REST/form-encoded/JSON description, explicit "webhooks not supported, use polling" statement.
+  - url: https://developer.phorest.com/docs/frequently-asked-questions
+    type: Documentation
+    note: Confirms transactionId is unique per branch only and not present in SQS purchase messages; no WebSocket mentioned.
+  - url: https://developer.phorest.com/docs/using-the-client-endpoint
+    type: Documentation
+    note: Confirmed base URL https://platform.phorest.com/third-party-api-server/api/business and Client create/update semantics.
+  - url: https://support.phorest.com/hc/en-us/articles/4411932479250-How-to-call-on-the-API-Endpoints
+    type: Documentation
+    note: Confirmed region-specific base URLs (EU/US-AUS/DEV) and URL structure businessId/branch/branchId/endpoint.
+  - url: https://developer.phorest.com/reference/getappointments
+    type: APIReference
+    note: All documented endpoints are HTTPS REST; confirms 100 rps rate limit and pagination pattern.
+  - url: https://developer.phorest.com/docs/common-api-use-cases
+    type: Documentation
+    note: Describes Booking, Client, Product, Purchase, Voucher, CSV Export, and Review API use cases; no realtime transport mentioned.
+  - url: https://github.com/phorest/sqs-sample
+    type: SourceCode
+    note: Public reference project showing purchase events optionally delivered to a partner-owned AWS SQS queue; not a Phorest-hosted realtime endpoint and not WebSocket.
+  - url: https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+    type: Documentation
+    note: Product and Purchase API used for third-party e-commerce integration; REST only.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and Phorest's own public API is
+    entirely request/response REST plus a documented polling pattern for
+    change detection. No AsyncAPI document was created because there is no
+    server-push transport on Phorest's own hosted API to model; the one
+    asynchronous mechanism (SQS purchase events) is delivered into
+    infrastructure the integrating partner owns and configures, not a
+    Phorest-hosted channel.

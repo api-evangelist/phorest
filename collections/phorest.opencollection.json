@@ -1,0 +1,296 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Phorest Third-Party API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "global/{{apiEmail}}",
+      "password": "{{apiPassword}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Clients", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List clients.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client?size=20&page=0" },
+          "docs": "Lists clients for a business, filterable by email, phone, name, or update time."
+        },
+        {
+          "info": { "name": "Create a client.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client",
+            "body": { "type": "json", "data": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"mobile\": \"+15551234567\"\n}" }
+          },
+          "docs": "Creates a client, e.g. from a website newsletter signup."
+        },
+        {
+          "info": { "name": "Update a client.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client/:clientId",
+            "params": [{ "name": "clientId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"version\": 1,\n  \"mobile\": \"+15557654321\"\n}" }
+          },
+          "docs": "Updates an existing client. Must include the current version number."
+        },
+        {
+          "info": { "name": "List client categories.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/category/client" },
+          "docs": "Lists client categories used for marketing/newsletter segmentation."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Appointments", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List appointments.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment?from_date=2026-07-01&to_date=2026-07-31",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists appointments for a business/branch over at most a one-month range."
+        },
+        {
+          "info": { "name": "Update an appointment.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }, { "name": "appointmentId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"startTime\": \"2026-07-10T10:00:00Z\",\n  \"staffId\": \"\"\n}" }
+          },
+          "docs": "Updates an appointment, e.g. rescheduling or reassigning staff."
+        },
+        {
+          "info": { "name": "Cancel an appointment.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId/cancel",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }, { "name": "appointmentId", "value": "", "type": "path" }]
+          },
+          "docs": "Cancels an appointment."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Bookings", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Check appointment availability.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointments/availability",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"startTime\": \"2026-07-10T09:00:00Z\",\n  \"endTime\": \"2026-07-10T18:00:00Z\",\n  \"clientServiceSelections\": [\n    { \"serviceId\": \"\" }\n  ]\n}" }
+          },
+          "docs": "Returns available appointment slots for a set of requested services within a time window."
+        },
+        {
+          "info": { "name": "Create a booking.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/booking",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"clientId\": \"\",\n  \"clientAppointmentSchedules\": [\n    { \"serviceId\": \"\", \"staffId\": \"\", \"startTime\": \"2026-07-10T10:00:00Z\" }\n  ]\n}" }
+          },
+          "docs": "Creates a booking (one or more scheduled services) for a client."
+        },
+        {
+          "info": { "name": "Cancel a booking.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/booking/:bookingId/cancel",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }, { "name": "bookingId", "value": "", "type": "path" }]
+          },
+          "docs": "Cancels a booking."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Staff", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List staff.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/staff",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists staff for a branch."
+        },
+        {
+          "info": { "name": "List staff work time tables.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/staff-work-time-table?from_date=2026-07-01&to_date=2026-07-07",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Returns staff work-time entries (rota). Does not support pagination."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Services", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List branch services.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists services offered at a branch."
+        },
+        {
+          "info": { "name": "List service categories.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service-category",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists service categories for a branch."
+        },
+        {
+          "info": { "name": "List service packages.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/package",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists bundled service packages for a branch."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Branches", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List branches.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch" },
+          "docs": "Lists a business's branches (locations)."
+        },
+        {
+          "info": { "name": "List rooms.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/room",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists treatment rooms for a branch."
+        },
+        {
+          "info": { "name": "List tax rates.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/taxrate",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists tax rates configured for a branch."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Products & Purchases", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List products.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/product",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists retail products with stock level, pricing, and barcode data."
+        },
+        {
+          "info": { "name": "Create a purchase.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/purchase",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"number\": \"INV-0001\",\n  \"clientId\": \"\",\n  \"items\": [\n    { \"itemType\": \"PRODUCT\", \"itemId\": \"\", \"quantity\": 1, \"price\": 25.00 }\n  ],\n  \"payments\": [\n    { \"type\": \"CASH\", \"amount\": 25.00 }\n  ]\n}" }
+          },
+          "docs": "Records a point-of-sale purchase, automatically updating stock."
+        },
+        {
+          "info": { "name": "Perform a stock adjustment.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/stock/adjustment",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"stocks\": [\n    { \"barcodes\": [\"0123456789\"], \"quantity\": -1, \"reason\": \"damaged\" }\n  ]\n}" }
+          },
+          "docs": "Manually adjusts stock quantities for one or more products by barcode."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Vouchers & Loyalty", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List vouchers.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/voucher" },
+          "docs": "Lists gift vouchers for a business."
+        },
+        {
+          "info": { "name": "Create a voucher.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/voucher",
+            "body": { "type": "json", "data": "{\n  \"issueDate\": \"2026-07-03T00:00:00Z\",\n  \"expiryDate\": \"2027-07-03T00:00:00Z\",\n  \"creatingBranchId\": \"\",\n  \"originalBalance\": 50.00\n}" }
+          },
+          "docs": "Creates a gift voucher for a business."
+        },
+        {
+          "info": { "name": "Change loyalty points.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/loyaltypoints",
+            "body": { "type": "json", "data": "{\n  \"clientId\": \"\",\n  \"branchId\": \"\",\n  \"description\": \"Referral bonus\",\n  \"pointsChange\": 100,\n  \"operationType\": \"ADD\"\n}" }
+          },
+          "docs": "Adds or deducts loyalty points for a client at a branch."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Reporting, Reviews & Leads", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a CSV export job.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/csvexportjob",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }],
+            "body": { "type": "json", "data": "{\n  \"jobType\": \"TRANSACTIONS_CSV\",\n  \"startFilter\": \"2026-06-01\",\n  \"finishFilter\": \"2026-06-30\"\n}" }
+          },
+          "docs": "Creates an asynchronous CSV export job for raw sale-level reporting over a date range."
+        },
+        {
+          "info": { "name": "List reviews.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/review",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists client reviews for a branch, used to syndicate reviews to external platforms."
+        },
+        {
+          "info": { "name": "List leads.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/leads",
+            "params": [{ "name": "branchId", "value": "", "type": "path" }]
+          },
+          "docs": "Lists marketing leads for a branch."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

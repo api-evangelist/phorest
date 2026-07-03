@@ -1,0 +1,321 @@
+{
+  "info": {
+    "name": "Phorest Third-Party API",
+    "description": "Partner-gated Phorest API - clients, appointments, bookings, staff, services, branches, products, purchases, vouchers, loyalty, courses, and reporting. Base URL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business (EU) or https://api-gateway-us.phorest.com/third-party-api-server/api/business (US/AUS). All requests require HTTP Basic auth (username global/{email}, password issued by Phorest).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "global/{{apiEmail}}", "type": "string" },
+      { "key": "password", "value": "{{apiPassword}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business", "type": "string" },
+    { "key": "apiEmail", "value": "", "type": "string" },
+    { "key": "apiPassword", "value": "", "type": "string" },
+    { "key": "businessId", "value": "", "type": "string" },
+    { "key": "branchId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "List clients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/client?size=20&page=0", "host": ["{{baseUrl}}"], "path": [":businessId", "client"], "query": [{ "key": "size", "value": "20" }, { "key": "page", "value": "0" }], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Lists clients for a business, filterable by email, phone, name, or update time."
+          }
+        },
+        {
+          "name": "Create a client",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"mobile\": \"+15551234567\"\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/client", "host": ["{{baseUrl}}"], "path": [":businessId", "client"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Creates a client, e.g. from a website newsletter signup."
+          }
+        },
+        {
+          "name": "Update a client",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"version\": 1,\n  \"mobile\": \"+15557654321\"\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/client/:clientId", "host": ["{{baseUrl}}"], "path": [":businessId", "client", ":clientId"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "clientId", "value": "" }] },
+            "description": "Updates an existing client. Must include the current version number."
+          }
+        },
+        {
+          "name": "List client categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/category/client", "host": ["{{baseUrl}}"], "path": [":businessId", "category", "client"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Lists client categories used for marketing/newsletter segmentation."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "List appointments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/appointment?from_date=2026-07-01&to_date=2026-07-31", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "appointment"], "query": [{ "key": "from_date", "value": "2026-07-01" }, { "key": "to_date", "value": "2026-07-31" }], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists appointments for a business/branch over at most a one-month range."
+          }
+        },
+        {
+          "name": "Update an appointment",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"startTime\": \"2026-07-10T10:00:00Z\",\n  \"staffId\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/appointment/:appointmentId", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "appointment", ":appointmentId"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }, { "key": "appointmentId", "value": "" }] },
+            "description": "Updates an appointment, e.g. rescheduling or reassigning staff."
+          }
+        },
+        {
+          "name": "Cancel an appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/appointment/:appointmentId/cancel", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "appointment", ":appointmentId", "cancel"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }, { "key": "appointmentId", "value": "" }] },
+            "description": "Cancels an appointment."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Check appointment availability",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"startTime\": \"2026-07-10T09:00:00Z\",\n  \"endTime\": \"2026-07-10T18:00:00Z\",\n  \"clientServiceSelections\": [\n    { \"serviceId\": \"\" }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/appointments/availability", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "appointments", "availability"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Returns available appointment slots for a set of requested services within a time window."
+          }
+        },
+        {
+          "name": "Create a booking",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"clientId\": \"\",\n  \"clientAppointmentSchedules\": [\n    { \"serviceId\": \"\", \"staffId\": \"\", \"startTime\": \"2026-07-10T10:00:00Z\" }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/booking", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "booking"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Creates a booking (one or more scheduled services) for a client."
+          }
+        },
+        {
+          "name": "Cancel a booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/booking/:bookingId/cancel", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "booking", ":bookingId", "cancel"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }, { "key": "bookingId", "value": "" }] },
+            "description": "Cancels a booking."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staff",
+      "item": [
+        {
+          "name": "List staff",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/staff", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "staff"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists staff for a branch."
+          }
+        },
+        {
+          "name": "List staff work time tables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/staff-work-time-table?from_date=2026-07-01&to_date=2026-07-07", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "staff-work-time-table"], "query": [{ "key": "from_date", "value": "2026-07-01" }, { "key": "to_date", "value": "2026-07-07" }], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Returns staff work-time entries (rota). Does not support pagination."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "List branch services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/service", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "service"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists services offered at a branch."
+          }
+        },
+        {
+          "name": "List service categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/service-category", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "service-category"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists service categories for a branch."
+          }
+        },
+        {
+          "name": "List service packages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/package", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "package"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists bundled service packages for a branch."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "List branches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch", "host": ["{{baseUrl}}"], "path": [":businessId", "branch"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Lists a business's branches (locations)."
+          }
+        },
+        {
+          "name": "List rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/room", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "room"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists treatment rooms for a branch."
+          }
+        },
+        {
+          "name": "List tax rates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/taxrate", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "taxrate"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists tax rates configured for a branch."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products & Purchases",
+      "item": [
+        {
+          "name": "List products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/product", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "product"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists retail products with stock level, pricing, and barcode data."
+          }
+        },
+        {
+          "name": "Create a purchase",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"number\": \"INV-0001\",\n  \"clientId\": \"\",\n  \"items\": [\n    { \"itemType\": \"PRODUCT\", \"itemId\": \"\", \"quantity\": 1, \"price\": 25.00 }\n  ],\n  \"payments\": [\n    { \"type\": \"CASH\", \"amount\": 25.00 }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/purchase", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "purchase"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Records a point-of-sale purchase, automatically updating stock."
+          }
+        },
+        {
+          "name": "Perform a stock adjustment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"stocks\": [\n    { \"barcodes\": [\"0123456789\"], \"quantity\": -1, \"reason\": \"damaged\" }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/stock/adjustment", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "stock", "adjustment"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Manually adjusts stock quantities for one or more products by barcode."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vouchers & Loyalty",
+      "item": [
+        {
+          "name": "List vouchers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/voucher", "host": ["{{baseUrl}}"], "path": [":businessId", "voucher"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Lists gift vouchers for a business."
+          }
+        },
+        {
+          "name": "Create a voucher",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"issueDate\": \"2026-07-03T00:00:00Z\",\n  \"expiryDate\": \"2027-07-03T00:00:00Z\",\n  \"creatingBranchId\": \"\",\n  \"originalBalance\": 50.00\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/voucher", "host": ["{{baseUrl}}"], "path": [":businessId", "voucher"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Creates a gift voucher for a business."
+          }
+        },
+        {
+          "name": "Change loyalty points",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"clientId\": \"\",\n  \"branchId\": \"{{branchId}}\",\n  \"description\": \"Referral bonus\",\n  \"pointsChange\": 100,\n  \"operationType\": \"ADD\"\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/loyaltypoints", "host": ["{{baseUrl}}"], "path": [":businessId", "loyaltypoints"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }] },
+            "description": "Adds or deducts loyalty points for a client at a branch."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reporting, Reviews & Leads",
+      "item": [
+        {
+          "name": "Create a CSV export job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"jobType\": \"TRANSACTIONS_CSV\",\n  \"startFilter\": \"2026-06-01\",\n  \"finishFilter\": \"2026-06-30\"\n}" },
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/csvexportjob", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "csvexportjob"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Creates an asynchronous CSV export job for raw sale-level reporting over a date range."
+          }
+        },
+        {
+          "name": "List reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/review", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "review"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists client reviews for a branch, used to syndicate reviews to external platforms."
+          }
+        },
+        {
+          "name": "List leads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/:businessId/branch/:branchId/leads", "host": ["{{baseUrl}}"], "path": [":businessId", "branch", ":branchId", "leads"], "variable": [{ "key": "businessId", "value": "{{businessId}}" }, { "key": "branchId", "value": "{{branchId}}" }] },
+            "description": "Lists marketing leads for a branch."
+          }
+        }
+      ]
+    }
+  ]
+}

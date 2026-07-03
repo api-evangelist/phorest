@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Phorest
+providerId: phorest
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Salon Software
+- Spa Software
+- Business Management
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Phorest spend for a salon, spa, or med-spa business. The
+  dominant cost is a quote-based monthly subscription per business (tiered
+  Starter/Grow/Complete Advantage/Elite for salons and spas, Core
+  Aesthetics/Elevate Aesthetics for med-spas), which is not metered by API
+  call volume - the Phorest API itself carries no separate published usage
+  fee and draws against the same subscription. Secondary metered charges
+  include per-SMS fees above each tier's included monthly allowance, a small
+  per-booking fee on Online Booking transactions, and negotiated integration
+  fees for third-party software vendors becoming certified Phorest partners.
+notes: >-
+  Because Phorest does not publish a rate card, per-unit figures here are
+  reconstructed from public pricing-page tier descriptions and third-party
+  writeups rather than an official invoice breakdown; verify current pricing
+  directly with Phorest during reconciliation. The API's flat 100 rps rate
+  limit (see rate-limits/phorest-rate-limits.yml) is a throughput ceiling,
+  not a billing meter.
+sources:
+- https://www.phorest.com/us/pricing/
+- https://developer.phorest.com/docs/getting-started
+- https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Phorest
+serviceCategory: Vertical SaaS - Salon and Spa Business Management
+billingModel:
+  pricingCategory: Subscription with Usage Add-Ons
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Subscription
+  - Usage
+  - Purchase
+meters:
+- name: subscription_fee
+  description: Flat monthly per-business subscription fee for the selected Starter/Grow/Complete Advantage/Elite (or MedSpa) tier.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - business
+  - plan_tier
+- name: sms_sent
+  description: Outbound marketing/appointment-reminder SMS messages sent above the plan's included monthly allowance.
+  unit: messages
+  aggregation: sum
+  dimensions:
+  - business
+  - branch
+- name: online_bookings
+  description: Client bookings made through Phorest Online Booking, each carrying a small per-booking fee.
+  unit: bookings
+  aggregation: sum
+  dimensions:
+  - business
+  - branch
+- name: partner_integration_fee
+  description: One-time or recurring fee charged to third-party software vendors for a certified Phorest partner integration.
+  unit: contracts
+  aggregation: sum
+  dimensions:
+  - vendor
+- name: api_requests
+  description: Third-party API calls against a business's Phorest data; not separately billed but tracked against the documented 100 rps ceiling.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - business
+  - endpoint
+principles:
+- name: Visibility
+  description: Track subscription tier, per-branch SMS usage, and Online Booking volume monthly since none are itemized on a per-API-call basis.
+- name: Allocation
+  description: Allocate subscription and SMS costs per branch/location for multi-branch businesses; API integration costs allocate to the engineering or vendor budget that requested access.
+- name: Optimization
+  description: Right-size the subscription tier to needed features (e.g. avoid Elite's branded app/two-way SMS if unused); batch reporting via the CSV export job API instead of polling individual endpoints to stay well under the 100 rps ceiling.
+- name: Accountability
+  description: Assign a business owner for the Phorest subscription tier decision and a technical owner for any partner API integration and its negotiated integration fee.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
