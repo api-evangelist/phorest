@@ -210,6 +210,14 @@ apis:
     marketing leads and lead statistics. Confirmed against Phorest's public API
     reference.
 common:
+- type: TrustCenter
+  url: security/phorest-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/phorest-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/phorest-domain-security.yml
+- type: Authentication
+  url: authentication/phorest-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/phorest
 - type: LinkedIn
@@ -224,6 +232,8 @@ common:
   url: rate-limits/phorest-rate-limits.yml
 - type: FinOps
   url: finops/phorest-finops.yml
+- url: https://www.phorest.com/blog/feed/
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

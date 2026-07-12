@@ -1,0 +1,34 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.phorest.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Jan 18 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: developer.phorest.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 26 08:43:26 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api-gateway-eu.phorest.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Jan 18 23:59:59 2027 GMT
+  hsts: null
+domains:
+- domain: phorest.com
+  dnssec: false
+  caa:
+  - 0 issue "sectigo.com"
+  - 0 issuewild "amazontrust.com"
+  - 0 issue "amazonaws.com"
+  - 0 issue "certainly.com"
+  - 0 issue "comodoca.com"
+  - 0 issue "digicert.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: none

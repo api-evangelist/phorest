@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/phorest-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: Username is `global/{email}`, using the email address Phorest associated with
+    the granted API access. Password is the API password issued by Phorest support.
+  sources:
+  - openapi/phorest-openapi.yml

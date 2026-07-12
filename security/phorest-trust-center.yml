@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://www.phorest.com/security/
+url: https://www.phorest.com/security/
+certifications:
+- PCI DSS
+- HIPAA
+- GDPR
+evidence:
+- source: https://www.phorest.com/security/
+  keywords:
+  - pci dss
+  - hipaa
+  - gdpr
