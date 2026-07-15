@@ -210,6 +210,8 @@ apis:
     marketing leads and lead statistics. Confirmed against Phorest's public API
     reference.
 common:
+- type: AgenticAccess
+  url: agentic-access/phorest-agentic-access.yml
 - type: TrustCenter
   url: security/phorest-trust-center.yml
 - type: VulnerabilityDisclosure
