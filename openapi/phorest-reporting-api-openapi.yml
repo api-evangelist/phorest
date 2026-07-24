@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Reporting API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Reporting
+  description: Asynchronous CSV export jobs for sale-level reporting.
+paths:
+  /{businessId}/branch/{branchId}/csvexportjob:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: createCsvExportJob
+      tags:
+      - Reporting
+      summary: Create a CSV export job
+      description: 'Creates an asynchronous CSV export job (transactions, sundries, DATEV, client courses, client-course transactions, or clients) over a date range. Confirmed: developer.phorest.com/reference/createcsvexportjob.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - jobType
+              properties:
+                jobType:
+                  type: string
+                  enum:
+                  - TRANSACTIONS_CSV
+                  - SUNDRIES_CSV
+                  - DATEV_CSV
+                  - CLIENT_COURSES_CSV
+                  - CLIENT_COURSE_TRANSACTIONS_CSV
+                  - CLIENT_CSV
+                startFilter:
+                  type: string
+                  format: date
+                finishFilter:
+                  type: string
+                  format: date
+                filterExpression:
+                  type: string
+      responses:
+        '201':
+          description: CSV export job created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsvExportJob'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/csvexportjob/{jobId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getCsvExportJob
+      tags:
+      - Reporting
+      summary: Retrieve a CSV export job
+      description: 'Polls a CSV export job for status and, once complete, a download URL. Confirmed: developer.phorest.com/reference/getcsvexportjob.'
+      responses:
+        '200':
+          description: The requested CSV export job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsvExportJob'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  schemas:
+    CsvExportJob:
+      type: object
+      properties:
+        jobId:
+          type: string
+        jobType:
+          type: string
+          enum:
+          - TRANSACTIONS_CSV
+          - SUNDRIES_CSV
+          - DATEV_CSV
+          - CLIENT_COURSES_CSV
+          - CLIENT_COURSE_TRANSACTIONS_CSV
+          - CLIENT_CSV
+        status:
+          type: string
+          enum:
+          - PENDING
+          - IN_PROGRESS
+          - COMPLETE
+          - FAILED
+        downloadUrl:
+          type: string
+          format: uri
+  parameters:
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

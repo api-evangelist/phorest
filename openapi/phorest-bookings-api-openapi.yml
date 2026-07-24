@@ -1,0 +1,301 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Bookings API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Bookings
+  description: Booking creation and lifecycle, plus real-time availability checks.
+paths:
+  /{businessId}/branch/{branchId}/appointments/availability:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: checkAppointmentAvailability
+      tags:
+      - Bookings
+      summary: Check appointment availability
+      description: 'Returns available appointment slots for a set of requested services within a time window; optionally scoped to a client or an existing booking being rescheduled. Confirmed: developer.phorest.com/reference/checkappointmentavailability.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvailabilityRequest'
+      responses:
+        '200':
+          description: Appointment availabilities listed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availableSlots:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvailabilitySlot'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/booking:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: createBooking
+      tags:
+      - Bookings
+      summary: Create a booking
+      description: 'Creates a booking (one or more scheduled services) for a client. Confirmed: developer.phorest.com/reference/createbooking.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+      responses:
+        '201':
+          description: Booking created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Booking data is invalid, unable to create a booking.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/booking/{bookingId}/cancel:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: bookingId
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: cancelBooking
+      tags:
+      - Bookings
+      summary: Cancel a booking
+      description: 'Cancels a booking. Confirmed to exist: developer.phorest.com/reference/cancelbooking; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Booking canceled successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/booking/{bookingId}/activate:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: bookingId
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: activateBooking
+      tags:
+      - Bookings
+      summary: Activate a reserved booking
+      description: 'Activates a RESERVED booking, turning a temporary hold into an ACTIVE booking. Confirmed to exist: developer.phorest.com/reference/activatebooking; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Booking activated successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/booking/{bookingId}/note:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: bookingId
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: appendNoteToBooking
+      tags:
+      - Bookings
+      summary: Append a note to a booking
+      description: 'Appends a service/colour note to an existing booking. Confirmed to exist: developer.phorest.com/reference/appendnotetobooking; sub-path modeled by convention.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                  maxLength: 50000
+      responses:
+        '200':
+          description: Note appended successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/deposit-payment-link:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: createDepositPaymentLink
+      tags:
+      - Bookings
+      summary: Create a deposit payment link
+      description: 'Creates a hosted payment link so a client can pay a booking deposit online. Confirmed to exist: developer.phorest.com/reference/createdepositpaymentlink; sub-path modeled by convention.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookingId:
+                  type: string
+                amount:
+                  type: number
+      responses:
+        '201':
+          description: Deposit payment link created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentLinkUrl:
+                    type: string
+                    format: uri
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  schemas:
+    BookingInput:
+      type: object
+      required:
+      - clientId
+      properties:
+        bookingStatus:
+          type: string
+          enum:
+          - ACTIVE
+          - RESERVED
+          - CANCELED
+        clientId:
+          type: string
+        note:
+          type: string
+          maxLength: 50000
+        clientAppointmentSchedules:
+          type: array
+          items:
+            type: object
+            properties:
+              serviceId:
+                type: string
+              staffId:
+                type: string
+              startTime:
+                type: string
+                format: date-time
+    AvailabilityRequest:
+      type: object
+      required:
+      - startTime
+      - endTime
+      - clientServiceSelections
+      properties:
+        clientId:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        clientServiceSelections:
+          type: array
+          items:
+            type: object
+            properties:
+              serviceId:
+                type: string
+              staffId:
+                type: string
+        rescheduleBookingId:
+          type: string
+        isOnlineAvailability:
+          type: boolean
+    Booking:
+      allOf:
+      - $ref: '#/components/schemas/BookingInput'
+      - type: object
+        properties:
+          bookingId:
+            type: string
+    AvailabilitySlot:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        staffId:
+          type: string
+  parameters:
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

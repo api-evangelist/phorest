@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Loyalty API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Loyalty
+  description: Client loyalty point adjustments.
+paths:
+  /{businessId}/loyaltypoints:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    post:
+      operationId: changeLoyaltyPoints
+      tags:
+      - Loyalty
+      summary: Add or deduct a client's loyalty points
+      description: 'Adds or deducts loyalty points for a client at a branch. Confirmed: developer.phorest.com/reference/changeloyaltypoints.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - clientId
+              - branchId
+              - description
+              - pointsChange
+              - operationType
+              properties:
+                clientId:
+                  type: string
+                branchId:
+                  type: string
+                description:
+                  type: string
+                pointsChange:
+                  type: integer
+                operationType:
+                  type: string
+                  enum:
+                  - ADD
+                  - DEDUCT
+      responses:
+        '200':
+          description: Loyalty points changed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  parameters:
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

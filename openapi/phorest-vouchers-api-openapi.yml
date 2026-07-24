@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Vouchers API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Vouchers
+  description: Gift voucher creation, lookup, and balance updates.
+paths:
+  /{businessId}/voucher:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    get:
+      operationId: getVouchers
+      tags:
+      - Vouchers
+      summary: List vouchers
+      description: 'Lists gift vouchers for a business, filterable by client, serial number, and update time. Confirmed: developer.phorest.com/reference/getvouchers.'
+      parameters:
+      - name: clientId
+        in: query
+        schema:
+          type: string
+      - name: serialNumber
+        in: query
+        schema:
+          type: string
+      - name: includeUsed
+        in: query
+        schema:
+          type: boolean
+      - name: updated_from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: updated_to
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Vouchers listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Voucher'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      operationId: createVoucher
+      tags:
+      - Vouchers
+      summary: Create a voucher
+      description: 'Creates a gift voucher for a business. Confirmed: developer.phorest.com/reference/createvoucher.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoucherInput'
+      responses:
+        '201':
+          description: Voucher created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voucher'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          description: A voucher with the specified serial number already exists.
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/voucher/{voucherId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - name: voucherId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getVoucher
+      tags:
+      - Vouchers
+      summary: Retrieve a voucher
+      description: 'Retrieves a single voucher by ID. Confirmed: developer.phorest.com/reference/getvoucher.'
+      responses:
+        '200':
+          description: The requested voucher.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voucher'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateVoucherBalance
+      tags:
+      - Vouchers
+      summary: Update a voucher's balance
+      description: 'Updates a voucher''s remaining balance. Confirmed: developer.phorest.com/reference/updatevoucherbalance.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - remainingBalance
+              properties:
+                remainingBalance:
+                  type: number
+      responses:
+        '200':
+          description: Voucher balance updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voucher'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+  schemas:
+    VoucherInput:
+      type: object
+      required:
+      - issueDate
+      - expiryDate
+      - creatingBranchId
+      - originalBalance
+      properties:
+        serialNumber:
+          type: string
+        issueDate:
+          type: string
+          format: date-time
+        expiryDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        creatingBranchId:
+          type: string
+        originalBalance:
+          type: number
+        notes:
+          type: string
+    Voucher:
+      allOf:
+      - $ref: '#/components/schemas/VoucherInput'
+      - type: object
+        properties:
+          voucherId:
+            type: string
+          remainingBalance:
+            type: number
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

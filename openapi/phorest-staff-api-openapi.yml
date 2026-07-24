@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Staff API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Staff
+  description: Staff records, rota/work-time tables, and staff breaks.
+paths:
+  /{businessId}/branch/{branchId}/staff:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getStaffList
+      tags:
+      - Staff
+      summary: List staff
+      description: 'Lists staff for a branch, filterable by update time and archived status. Confirmed: developer.phorest.com/reference/getstafflist.'
+      parameters:
+      - name: updatedAfter
+        in: query
+        schema:
+          type: string
+      - name: updatedBefore
+        in: query
+        schema:
+          type: string
+      - name: fetch_archived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Staff listed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      staffs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Staff'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/staff/{staffId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: staffId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getStaff
+      tags:
+      - Staff
+      summary: Retrieve a staff member
+      description: 'Retrieves a single staff member by ID. Confirmed to exist: developer.phorest.com/reference/getstaff; sub-path modeled by convention with the confirmed collection path.'
+      responses:
+        '200':
+          description: The requested staff member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/staff-work-time-table:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getStaffWorkTimeTables
+      tags:
+      - Staff
+      summary: List staff work time tables (rota)
+      description: 'Returns staff work-time entries (rota) for a date range. This endpoint does not support pagination and always returns all records for the given range. Confirmed: developer.phorest.com/reference/getstaffworktimetables.'
+      parameters:
+      - name: from_date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Staff work time tables listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StaffWorkTimeEntry'
+  /{businessId}/branch/{branchId}/staff/{staffId}/break:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: staffId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getBreaks
+      tags:
+      - Staff
+      summary: List a staff member's breaks
+      description: 'Lists breaks scheduled for a staff member. Confirmed to exist: developer.phorest.com/reference/getbreaks; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Breaks listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StaffBreak'
+    post:
+      operationId: createBreak
+      tags:
+      - Staff
+      summary: Create a staff break
+      description: 'Creates a break on a staff member''s rota. Confirmed to exist: developer.phorest.com/reference/createbreak; sub-path modeled by convention.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffBreakInput'
+      responses:
+        '201':
+          description: Break created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffBreak'
+  /{businessId}/branch/{branchId}/staff/{staffId}/break/{breakId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: staffId
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: breakId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getStaffBreak
+      tags:
+      - Staff
+      summary: Retrieve a staff break
+      description: 'Retrieves a single break by ID. Confirmed to exist: developer.phorest.com/reference/getstaffbreak; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested break.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffBreak'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateBreak
+      tags:
+      - Staff
+      summary: Update a staff break
+      description: 'Updates an existing break. Confirmed to exist: developer.phorest.com/reference/updatebreak; sub-path modeled by convention.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffBreakInput'
+      responses:
+        '200':
+          description: Break updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffBreak'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteBreak
+      tags:
+      - Staff
+      summary: Delete a staff break
+      description: 'Deletes a break. Confirmed to exist: developer.phorest.com/reference/deletebreak; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Break deleted successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  schemas:
+    StaffBreak:
+      allOf:
+      - $ref: '#/components/schemas/StaffBreakInput'
+      - type: object
+        properties:
+          breakId:
+            type: string
+    Staff:
+      type: object
+      properties:
+        staffId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        archived:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+    StaffBreakInput:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        description:
+          type: string
+    StaffWorkTimeEntry:
+      type: object
+      properties:
+        staffId:
+          type: string
+        date:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

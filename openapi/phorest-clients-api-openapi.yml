@@ -1,0 +1,333 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Clients API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Clients
+  description: Client (customer) records and client categories.
+paths:
+  /{businessId}/client:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    get:
+      operationId: getClients
+      tags:
+      - Clients
+      summary: List clients
+      description: 'Lists clients for a business, filterable by email, phone, name, or update time. Confirmed: developer.phorest.com/reference/getclients.'
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: phone
+        in: query
+        schema:
+          type: string
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        in: query
+        schema:
+          type: string
+      - name: updatedAfter
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: updatedBefore
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Clients listed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      clients:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      operationId: createClient
+      tags:
+      - Clients
+      summary: Create a client
+      description: 'Creates a client - for example from a website newsletter signup. Confirmed: developer.phorest.com/docs/using-the-client-endpoint.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '201':
+          description: Client created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/client/{clientId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/ClientId'
+    get:
+      operationId: getClient
+      tags:
+      - Clients
+      summary: Retrieve a client
+      description: Retrieves a single client by ID. Modeled by convention from the confirmed getClients/updateClient siblings - not shown as its own text page in the public reference.
+      responses:
+        '200':
+          description: The requested client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateClient
+      tags:
+      - Clients
+      summary: Update a client
+      description: 'Updates an existing client. The request body must include the client''s current `version`; Phorest increments it on success. Confirmed: developer.phorest.com/docs/using-the-client-endpoint.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '200':
+          description: Client updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /{businessId}/client/walkin:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    get:
+      operationId: getWalkInClient
+      tags:
+      - Clients
+      summary: Retrieve the walk-in client
+      description: Retrieves the business's placeholder "walk-in" client record, used for bookings/purchases with no named client. Modeled from the reference page name getwalkinclient by convention with the client resource root.
+      responses:
+        '200':
+          description: The walk-in client record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /{businessId}/category/client:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    get:
+      operationId: getClientCategories
+      tags:
+      - Clients
+      summary: List client categories
+      description: 'Lists client categories used for marketing/newsletter segmentation. Confirmed: developer.phorest.com/reference/getclientcategories.'
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Client categories listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientCategory'
+  /{businessId}/category/client/{categoryId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - name: categoryId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getClientCategory
+      tags:
+      - Clients
+      summary: Retrieve a client category
+      description: Retrieves a single client category by ID. Modeled by convention from the confirmed getClientCategories sibling.
+      responses:
+        '200':
+          description: The requested client category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCategory'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    BadRequest:
+      description: The request was invalid.
+    ServerError:
+      description: Internal server error.
+  schemas:
+    ClientCategory:
+      type: object
+      properties:
+        categoryId:
+          type: string
+        name:
+          type: string
+        archived:
+          type: boolean
+    Client:
+      allOf:
+      - $ref: '#/components/schemas/ClientInput'
+      - type: object
+        properties:
+          clientId:
+            type: string
+          version:
+            type: integer
+          creatingBranchId:
+            type: string
+            readOnly: true
+          createdAt:
+            type: string
+            format: date-time
+          updatedAt:
+            type: string
+            format: date-time
+    ClientInput:
+      type: object
+      required:
+      - firstName
+      - lastName
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        mobile:
+          type: string
+        address:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        version:
+          type: integer
+          description: Required on update; omit on create.
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

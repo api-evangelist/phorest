@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Courses API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Courses
+  description: Course templates and a client's purchased course sessions.
+paths:
+  /{businessId}/branch/{branchId}/course:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getCourses
+      tags:
+      - Courses
+      summary: List course templates
+      description: 'Lists prepaid-session course templates (e.g. "10-session laser hair removal") offered at a branch. Confirmed: developer.phorest.com/reference/getcourses.'
+      parameters:
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Courses listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+  /{businessId}/branch/{branchId}/client/{clientId}/course:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/ClientId'
+    get:
+      operationId: getClientCourses
+      tags:
+      - Courses
+      summary: List a client's purchased courses
+      description: 'Lists the course instances a client has purchased, with remaining session counts. Confirmed to exist: developer.phorest.com/reference/getclientcourses; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Client courses listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientCourse'
+  /{businessId}/branch/{branchId}/client/{clientId}/course/{courseId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/ClientId'
+    - name: courseId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getClientCourse
+      tags:
+      - Courses
+      summary: Retrieve a client's course
+      description: 'Retrieves a single client course instance by ID. Confirmed to exist: developer.phorest.com/reference/getclientcourse; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested client course.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCourse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateClientCourse
+      tags:
+      - Courses
+      summary: Update a client's course
+      description: 'Updates a client course instance (for example, adjusting remaining sessions). Confirmed to exist: developer.phorest.com/reference/updateclientcourse; sub-path modeled by convention.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCourse'
+      responses:
+        '200':
+          description: Client course updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCourse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    ClientCourse:
+      type: object
+      properties:
+        clientCourseId:
+          type: string
+        courseId:
+          type: string
+        clientId:
+          type: string
+        remainingSessions:
+          type: integer
+    Course:
+      type: object
+      properties:
+        courseId:
+          type: string
+        name:
+          type: string
+        totalSessions:
+          type: integer
+        archived:
+          type: boolean
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

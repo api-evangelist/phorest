@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Reviews API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Reviews
+  description: Client reviews for syndication to external review platforms.
+paths:
+  /{businessId}/branch/{branchId}/review:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getReviewList
+      tags:
+      - Reviews
+      summary: List reviews
+      description: 'Lists client reviews for a branch, filterable by client, client name, staff name, or review date - used to syndicate reviews to external platforms. Confirmed: developer.phorest.com/reference/getreviewlist.'
+      parameters:
+      - name: clientId
+        in: query
+        schema:
+          type: string
+      - name: clientName
+        in: query
+        schema:
+          type: string
+      - name: staffName
+        in: query
+        schema:
+          type: string
+      - name: reviewDate
+        in: query
+        schema:
+          type: string
+          format: date
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Reviews listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+  /{businessId}/branch/{branchId}/review/{reviewId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: reviewId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getReview
+      tags:
+      - Reviews
+      summary: Retrieve a review
+      description: 'Retrieves a single review by ID. Confirmed to exist: developer.phorest.com/reference/getreview; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested review.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  schemas:
+    Review:
+      type: object
+      properties:
+        reviewId:
+          type: string
+        clientId:
+          type: string
+        staffId:
+          type: string
+        rating:
+          type: integer
+        comment:
+          type: string
+        reviewDate:
+          type: string
+          format: date
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

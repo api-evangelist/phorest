@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Branches API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Branches
+  description: Branches (locations), rooms, machines, and tax rates.
+paths:
+  /{businessId}/branch:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    get:
+      operationId: getBranches
+      tags:
+      - Branches
+      summary: List branches
+      description: 'Lists a business''s branches (locations). Confirmed: developer.phorest.com/reference/getbranches.'
+      parameters:
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Branches listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/worktimetable:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getBranchWorkTimeTable
+      tags:
+      - Branches
+      summary: Retrieve a branch's work time table
+      description: 'Returns the branch''s opening hours / work-time table. Confirmed to exist: developer.phorest.com/reference/getbranchworktimetable; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Branch work time table.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchWorkTimeTable'
+  /{businessId}/branch/{branchId}/room:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getRooms
+      tags:
+      - Branches
+      summary: List treatment rooms
+      description: 'Lists treatment rooms for a branch, filterable by update date and archived status. Confirmed: developer.phorest.com/reference/getrooms.'
+      parameters:
+      - name: updated_from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Rooms listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+  /{businessId}/branch/{branchId}/room/{roomId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: roomId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getRoom
+      tags:
+      - Branches
+      summary: Retrieve a treatment room
+      description: 'Retrieves a single room by ID. Confirmed to exist: developer.phorest.com/reference/getroom; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/machine:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getMachines
+      tags:
+      - Branches
+      summary: List machines
+      description: 'Lists equipment/machines for a branch, filterable by update date and archived status. Confirmed: developer.phorest.com/reference/getmachines.'
+      parameters:
+      - name: updated_from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Machines listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Machine'
+  /{businessId}/branch/{branchId}/machine/{machineId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: machineId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getMachine
+      tags:
+      - Branches
+      summary: Retrieve a machine
+      description: 'Retrieves a single machine by ID. Confirmed to exist: developer.phorest.com/reference/getmachine; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested machine.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/taxrate:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getTaxRates
+      tags:
+      - Branches
+      summary: List tax rates
+      description: 'Lists tax rates configured for a branch. Confirmed: developer.phorest.com/reference/gettaxrates.'
+      parameters:
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Tax rates listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaxRate'
+  /{businessId}/branch/{branchId}/taxrate/{taxRateId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: taxRateId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getTaxRate
+      tags:
+      - Branches
+      summary: Retrieve a tax rate
+      description: 'Retrieves a single tax rate by ID. Confirmed to exist: developer.phorest.com/reference/gettaxrate; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: The requested tax rate.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxRate'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  schemas:
+    BranchWorkTimeTable:
+      type: object
+      properties:
+        branchId:
+          type: string
+        openingHours:
+          type: array
+          items:
+            type: object
+            properties:
+              dayOfWeek:
+                type: string
+              startTime:
+                type: string
+              endTime:
+                type: string
+    Room:
+      type: object
+      properties:
+        roomId:
+          type: string
+        name:
+          type: string
+        archived:
+          type: boolean
+    Machine:
+      type: object
+      properties:
+        machineId:
+          type: string
+        name:
+          type: string
+        archived:
+          type: boolean
+    TaxRate:
+      type: object
+      properties:
+        taxRateId:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+    Branch:
+      type: object
+      properties:
+        branchId:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        timezone:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

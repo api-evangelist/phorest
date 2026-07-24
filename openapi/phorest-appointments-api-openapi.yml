@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Appointments
+  description: Appointment lifecycle - list, retrieve, update, cancel, confirm, check in.
+paths:
+  /{businessId}/branch/{branchId}/appointment:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getAppointments
+      tags:
+      - Appointments
+      summary: List appointments
+      description: 'Lists appointments for a business/branch over at most a one-month range, filterable by date, update time, staff, room, machine, client, or group booking. Confirmed: developer.phorest.com/reference/getappointments.'
+      parameters:
+      - name: from_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: staff_id
+        in: query
+        schema:
+          type: string
+      - name: room_id
+        in: query
+        schema:
+          type: string
+      - name: machine_id
+        in: query
+        schema:
+          type: string
+      - name: client_id
+        in: query
+        schema:
+          type: string
+      - name: group_booking_id
+        in: query
+        schema:
+          type: string
+      - name: fetch_canceled
+        in: query
+        schema:
+          type: boolean
+      - name: fetch_deleted
+        in: query
+        schema:
+          type: boolean
+      - name: fetch_archived
+        in: query
+        schema:
+          type: boolean
+      - name: fetch_notes
+        in: query
+        schema:
+          type: boolean
+      - name: updated_from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: updated_to
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Appointments listed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      appointments:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Appointment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/appointment/{appointmentId}:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/AppointmentId'
+    get:
+      operationId: getAppointment
+      tags:
+      - Appointments
+      summary: Retrieve an appointment
+      description: Retrieves a single appointment by ID. Modeled by convention from the confirmed getAppointments/updateAppointment siblings.
+      responses:
+        '200':
+          description: The requested appointment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateAppointment
+      tags:
+      - Appointments
+      summary: Update an appointment
+      description: 'Updates an appointment (for example rescheduling or reassigning staff/room). Confirmed to exist: developer.phorest.com/reference/updateappointment; sub-path modeled by convention with the confirmed collection path.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentInput'
+      responses:
+        '200':
+          description: Appointment updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /{businessId}/branch/{branchId}/appointment/{appointmentId}/cancel:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/AppointmentId'
+    post:
+      operationId: cancelAppointment
+      tags:
+      - Appointments
+      summary: Cancel an appointment
+      description: 'Cancels an appointment. Confirmed to exist: developer.phorest.com/reference/cancelappointments; sub-path modeled by convention with the confirmed action-suffix pattern used by cancelBooking/confirmAppointment.'
+      responses:
+        '200':
+          description: Appointment canceled successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/appointment/{appointmentId}/confirm:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/AppointmentId'
+    post:
+      operationId: confirmAppointment
+      tags:
+      - Appointments
+      summary: Confirm an appointment
+      description: 'Marks an appointment as confirmed. Confirmed to exist: developer.phorest.com/reference/confirmappointments; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Appointment confirmed successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/appointment/{appointmentId}/checkin:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - $ref: '#/components/parameters/AppointmentId'
+    post:
+      operationId: checkInAppointment
+      tags:
+      - Appointments
+      summary: Check in an appointment
+      description: 'Checks a client in for an appointment. Confirmed to exist: developer.phorest.com/reference/checkin_1; sub-path modeled by convention.'
+      responses:
+        '200':
+          description: Appointment checked in successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Appointment:
+      allOf:
+      - $ref: '#/components/schemas/AppointmentInput'
+      - type: object
+        properties:
+          appointmentId:
+            type: string
+          state:
+            type: string
+            enum:
+            - ACTIVE
+            - RESERVED
+            - CANCELED
+            - ARCHIVED
+    AppointmentInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+        staffId:
+          type: string
+        roomId:
+          type: string
+        machineId:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        serviceId:
+          type: string
+        note:
+          type: string
+          maxLength: 50000
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    AppointmentId:
+      name: appointmentId
+      in: path
+      required: true
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.

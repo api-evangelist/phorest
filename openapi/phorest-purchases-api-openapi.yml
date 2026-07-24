@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: Phorest Third-Party Appointments Purchases API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  version: '1.0'
+  contact:
+    name: Phorest API Support
+    email: api-requests@phorest.com
+    url: https://developer.phorest.com/docs/getting-started
+  license:
+    name: Proprietary - partner access only
+    url: https://developer.phorest.com/docs/requesting-assistance-with-the-phorest-api
+servers:
+- url: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  description: EU production gateway
+- url: https://api-gateway-us.phorest.com/third-party-api-server/api/business
+  description: US/AUS production gateway
+- url: https://platform.phorest.com/third-party-api-server/api/business
+  description: EU production alias documented in Phorest support articles
+security:
+- basicAuth: []
+tags:
+- name: Purchases
+  description: Point-of-sale purchases, stock adjustments, and till balances.
+paths:
+  /{businessId}/branch/{branchId}/inventorytransaction:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getInventoryTransactions
+      tags:
+      - Purchases
+      summary: List inventory transactions
+      description: 'Lists inventory transactions (stock movements) for a branch. Confirmed: developer.phorest.com/reference/getinventorytransactions.'
+      parameters:
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Inventory transactions listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryTransaction'
+  /{businessId}/branch/{branchId}/stock/adjustment:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: performStockAdjustment
+      tags:
+      - Purchases
+      summary: Perform a stock adjustment
+      description: 'Manually adjusts stock quantities for one or more products by barcode. Confirmed: developer.phorest.com/reference/performstockadjustment.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - stocks
+              properties:
+                stocks:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      barcodes:
+                        type: array
+                        items:
+                          type: string
+                      quantity:
+                        type: number
+                      reason:
+                        type: string
+      responses:
+        '204':
+          description: Stock adjustment applied successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/purchase:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    post:
+      operationId: createPurchase
+      tags:
+      - Purchases
+      summary: Create a purchase
+      description: 'Records a point-of-sale purchase (appointments, products, courses, and/or vouchers) against a client, automatically updating stock. Also emits a purchase event onto a partner-provisioned AWS SQS queue per Phorest''s public sqs-sample reference project. Confirmed: developer.phorest.com/reference/createpurchase.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseInput'
+      responses:
+        '201':
+          description: Purchase created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /{businessId}/branch/{branchId}/till/{tillId}/balance:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    - name: tillId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getTillBalance
+      tags:
+      - Purchases
+      summary: Retrieve a till balance
+      description: 'Retrieves the till balance for a branch till, optionally including integrated-payment balances. Confirmed: developer.phorest.com/reference/gettillbalance.'
+      parameters:
+      - name: includeIntegratedPayments
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Till balance retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TillBalance'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{businessId}/branch/{branchId}/salefee:
+    parameters:
+    - $ref: '#/components/parameters/BusinessId'
+    - $ref: '#/components/parameters/BranchId'
+    get:
+      operationId: getSaleFeeList
+      tags:
+      - Purchases
+      summary: List sale fees
+      description: 'Lists configured sale fees (e.g. card-processing or service fees) for a branch. Confirmed: developer.phorest.com/reference/getsalefeelist.'
+      parameters:
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Sale fees listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SaleFee'
+components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
+    BadRequest:
+      description: The request was invalid.
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  schemas:
+    Purchase:
+      allOf:
+      - $ref: '#/components/schemas/PurchaseInput'
+      - type: object
+        properties:
+          purchaseId:
+            type: string
+          transactionId:
+            type: string
+            description: Unique per branch only; combine with branchId to disambiguate across branches. Not present in the SQS purchase event.
+          branchId:
+            type: string
+    PurchaseInput:
+      type: object
+      required:
+      - number
+      - clientId
+      - items
+      properties:
+        number:
+          type: string
+          description: Must be unique across all purchases for the branch.
+        clientId:
+          type: string
+        payments:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              amount:
+                type: number
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            properties:
+              itemType:
+                type: string
+                enum:
+                - APPOINTMENT
+                - PRODUCT
+                - COURSE
+                - VOUCHER
+              itemId:
+                type: string
+              quantity:
+                type: integer
+              price:
+                type: number
+    TillBalance:
+      type: object
+      properties:
+        tillId:
+          type: string
+        expectedCash:
+          type: number
+        countedCash:
+          type: number
+        integratedPaymentBalances:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    SaleFee:
+      type: object
+      properties:
+        saleFeeId:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+        archived:
+          type: boolean
+    InventoryTransaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+        productId:
+          type: string
+        quantityChange:
+          type: number
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Username is `global/{email}`, using the email address Phorest associated with the granted API access. Password is the API password issued by Phorest support.
