@@ -11,7 +11,20 @@ description: Phorest is salon and spa business management software (scheduling, 
   staff, services, products, purchases, vouchers, and reporting data so approved
   developers can build custom booking flows, e-commerce integrations, call-centre
   lookups, and reporting tools on top of a salon's Phorest data.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/phorest.png
 tags:
 - Salon Software
 - Spa Software
@@ -23,192 +36,678 @@ created: '2026-07-03'
 modified: '2026-07-03'
 specificationVersion: '0.19'
 apis:
-- aid: phorest:phorest-clients-api
-  name: Phorest Clients API
-  tags:
-  - Clients
-  - CRM
-  - Client Categories
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: phorest:phorest-appointments-api
+  name: Phorest Appointments API
+  description: Appointment lifecycle - list, retrieve, update, cancel, confirm, check in.
   humanURL: https://developer.phorest.com/reference/getclients
   baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
-  properties:
-  - url: https://developer.phorest.com/docs/using-the-client-endpoint
-    type: Documentation
-  - url: https://developer.phorest.com/reference/getclients
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: Create, retrieve, update, and list clients (individually or in batch)
-    scoped to a business, including filtering by email, phone, name, or update
-    time, plus client categories used for newsletter and marketing segmentation.
-    Confirmed against Phorest's public API reference.
-- aid: phorest:phorest-appointments-bookings-api
-  name: Phorest Appointments & Bookings API
   tags:
   - Appointments
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-appointments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-bookings-api
+  name: Phorest Bookings API
+  description: Booking creation and lifecycle, plus real-time availability checks.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
   - Bookings
-  - Scheduling
-  - Availability
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/getappointments
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   properties:
-  - url: https://developer.phorest.com/docs/common-api-use-cases
-    type: Documentation
-  - url: https://developer.phorest.com/reference/getappointments
-    type: APIReference
-  - url: https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
-    type: Documentation
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: List, retrieve, update, cancel, confirm, and check in appointments
-    for a business branch; create, cancel, activate, and note bookings; and check
-    real-time appointment-slot availability for a set of requested services. The
-    backbone of Phorest's bespoke online-booking use case. Confirmed against
-    Phorest's public API reference.
-- aid: phorest:phorest-staff-api
-  name: Phorest Staff API
-  tags:
-  - Staff
-  - Rota
-  - Breaks
-  - Work Time Tables
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/getstafflist
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
-  properties:
-  - url: https://developer.phorest.com/reference/getstafflist
-    type: APIReference
-  - url: https://developer.phorest.com/reference/getstaffworktimetables
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: List and retrieve staff (individually or in batch) per branch,
-    read staff work time tables (rota), and create, retrieve, update, and delete
-    staff breaks. Confirmed against Phorest's public API reference; the staff
-    work time tables endpoint does not support pagination and always returns
-    the full date-range result set.
-- aid: phorest:phorest-services-api
-  name: Phorest Services API
-  tags:
-  - Services
-  - Service Categories
-  - Packages
-  - Special Offers
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/getservices_1
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
-  properties:
-  - url: https://developer.phorest.com/reference/getservices_1
-    type: APIReference
-  - url: https://developer.phorest.com/reference/getservicecategories
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: List services, service categories, service packages, and service
-    special offers for a branch, including price and duration data used to
-    build booking flows and quotes. Confirmed against Phorest's public API
-    reference.
-- aid: phorest:phorest-products-purchases-api
-  name: Phorest Products & Purchases API
-  tags:
-  - Products
-  - Retail
-  - Purchases
-  - Point of Sale
-  - Inventory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/createpurchase
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
-  properties:
-  - url: https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
-    type: Documentation
-  - url: https://developer.phorest.com/reference/createpurchase
-    type: APIReference
-  - url: https://developer.phorest.com/reference/getproducts
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: List retail products with stock level, pricing, and barcode data;
-    record purchases (appointments, products, courses, or vouchers) against a
-    client and branch, which updates stock automatically; read inventory
-    transactions and till balances; and perform manual stock adjustments. Used
-    for third-party e-commerce (WooCommerce/Shopify-style) integrations.
-    Confirmed against Phorest's public API reference. Purchase creation also
-    emits an event onto a partner-provisioned AWS SQS queue per Phorest's
-    sqs-sample reference project.
-- aid: phorest:phorest-vouchers-loyalty-api
-  name: Phorest Vouchers & Loyalty API
-  tags:
-  - Vouchers
-  - Gift Cards
-  - Loyalty
-  - Rewards
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/getvouchers
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
-  properties:
-  - url: https://developer.phorest.com/docs/common-api-use-cases
-    type: Documentation
-  - url: https://developer.phorest.com/reference/getvouchers
-    type: APIReference
-  - url: https://developer.phorest.com/reference/createvoucher
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: Create, retrieve, list, and update the balance of gift vouchers
-    scoped to a business, and adjust a client's loyalty points balance. Phorest
-    does not process the voucher purchase payment itself - integrators build
-    the purchase web experience and payment step, then write the voucher via
-    this API. Confirmed against Phorest's public API reference.
+  - type: OpenAPI
+    url: openapi/phorest-bookings-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
 - aid: phorest:phorest-branches-api
   name: Phorest Branches API
+  description: Branches (locations), rooms, machines, and tax rates.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   tags:
   - Branches
-  - Locations
-  - Rooms
-  - Machines
-  - Tax Rates
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/getbranches
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   properties:
-  - url: https://developer.phorest.com/reference/getbranches
-    type: APIReference
-  - url: https://developer.phorest.com/reference/getbranchworktimetable
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: List a business's branches (locations), each branch's work time
-    table, treatment rooms, equipment/machines, and tax rates - the reference
-    data most other Phorest endpoints are scoped underneath. Confirmed against
-    Phorest's public API reference.
-- aid: phorest:phorest-reporting-reviews-api
-  name: Phorest Reporting & Reviews API
+  - type: OpenAPI
+    url: openapi/phorest-branches-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-clients-api
+  name: Phorest Clients API
+  description: Client (customer) records and client categories.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-clients-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-courses-api
+  name: Phorest Courses API
+  description: Course templates and a client's purchased course sessions.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Courses
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-courses-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-leads-api
+  name: Phorest Leads API
+  description: Marketing leads and lead statistics.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Leads
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-leads-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-loyalty-api
+  name: Phorest Loyalty API
+  description: Client loyalty point adjustments.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Loyalty
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-loyalty-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-products-api
+  name: Phorest Products API
+  description: Retail products and inventory.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-products-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-purchases-api
+  name: Phorest Purchases API
+  description: Point-of-sale purchases, stock adjustments, and till balances.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Purchases
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-purchases-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-reporting-api
+  name: Phorest Reporting API
+  description: Asynchronous CSV export jobs for sale-level reporting.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   tags:
   - Reporting
-  - CSV Export
-  - Reviews
-  - Leads
-  - Sale Fees
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.phorest.com/reference/createcsvexportjob
-  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   properties:
-  - url: https://developer.phorest.com/docs/common-api-use-cases
-    type: Documentation
-  - url: https://developer.phorest.com/reference/createcsvexportjob
-    type: APIReference
-  - url: https://developer.phorest.com/reference/getreviewlist
-    type: APIReference
-  - url: openapi/phorest-openapi.yml
-    type: OpenAPI
-  description: Create and poll asynchronous CSV export jobs for raw sale-level
-    reporting over a date range, list and retrieve client reviews for
-    syndication to external review platforms, list sales-fee records, and read
-    marketing leads and lead statistics. Confirmed against Phorest's public API
-    reference.
+  - type: OpenAPI
+    url: openapi/phorest-reporting-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-reviews-api
+  name: Phorest Reviews API
+  description: Client reviews for syndication to external review platforms.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Reviews
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-reviews-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-services-api
+  name: Phorest Services API
+  description: Services, service categories, packages, and special offers.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-services-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-staff-api
+  name: Phorest Staff API
+  description: Staff records, rota/work-time tables, and staff breaks.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Staff
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-staff-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
+- aid: phorest:phorest-vouchers-api
+  name: Phorest Vouchers API
+  description: Gift voucher creation, lookup, and balance updates.
+  humanURL: https://developer.phorest.com/reference/getclients
+  baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
+  tags:
+  - Vouchers
+  properties:
+  - type: OpenAPI
+    url: openapi/phorest-vouchers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.phorest.com/docs/using-the-client-endpoint
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getclients
+  - type: Documentation
+    url: https://developer.phorest.com/docs/common-api-use-cases
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getappointments
+  - type: Documentation
+    url: >-
+      https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstafflist
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getstaffworktimetables
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservices_1
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getservicecategories
+  - type: Documentation
+    url: >-
+      https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createpurchase
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getproducts
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getvouchers
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createvoucher
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranches
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getbranchworktimetable
+  - type: APIReference
+    url: https://developer.phorest.com/reference/createcsvexportjob
+  - type: APIReference
+    url: https://developer.phorest.com/reference/getreviewlist
 common:
 - type: AgenticAccess
   url: agentic-access/phorest-agentic-access.yml
