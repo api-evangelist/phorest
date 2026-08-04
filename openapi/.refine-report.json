@@ -1,0 +1,40 @@
+{
+  "provider": "phorest",
+  "sources": [
+    "phorest-appointments-api-openapi.yml",
+    "phorest-bookings-api-openapi.yml",
+    "phorest-branches-api-openapi.yml",
+    "phorest-clients-api-openapi.yml",
+    "phorest-courses-api-openapi.yml",
+    "phorest-leads-api-openapi.yml",
+    "phorest-loyalty-api-openapi.yml",
+    "phorest-products-api-openapi.yml",
+    "phorest-purchases-api-openapi.yml",
+    "phorest-reporting-api-openapi.yml",
+    "phorest-reviews-api-openapi.yml",
+    "phorest-services-api-openapi.yml",
+    "phorest-staff-api-openapi.yml",
+    "phorest-vouchers-api-openapi.yml"
+  ],
+  "outputs": [
+    "phorest-appointments-api-openapi.yml",
+    "phorest-bookings-api-openapi.yml",
+    "phorest-branches-api-openapi.yml",
+    "phorest-clients-api-openapi.yml",
+    "phorest-courses-api-openapi.yml",
+    "phorest-leads-api-openapi.yml",
+    "phorest-loyalty-api-openapi.yml",
+    "phorest-products-api-openapi.yml",
+    "phorest-purchases-api-openapi.yml",
+    "phorest-reporting-api-openapi.yml",
+    "phorest-reviews-api-openapi.yml",
+    "phorest-services-api-openapi.yml",
+    "phorest-staff-api-openapi.yml",
+    "phorest-vouchers-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
