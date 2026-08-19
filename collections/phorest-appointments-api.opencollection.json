@@ -1,0 +1,281 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Phorest Third-Party Appointments API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Appointments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List appointments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "from_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "staff_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "room_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "machine_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group_booking_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fetch_canceled",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fetch_deleted",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fetch_archived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fetch_notes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists appointments for a business/branch over at most a one-month range, filterable by date, update time, staff, room, machine, client, or group booking. Confirmed: developer.phorest.com/reference/getappointments."
+        },
+        {
+          "info": {
+            "name": "Retrieve an appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single appointment by ID. Modeled by convention from the confirmed getAppointments/updateAppointment siblings."
+        },
+        {
+          "info": {
+            "name": "Update an appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an appointment (for example rescheduling or reassigning staff/room). Confirmed to exist: developer.phorest.com/reference/updateappointment; sub-path modeled by convention with the confirmed collection path."
+        },
+        {
+          "info": {
+            "name": "Cancel an appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId/cancel",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancels an appointment. Confirmed to exist: developer.phorest.com/reference/cancelappointments; sub-path modeled by convention with the confirmed action-suffix pattern used by cancelBooking/confirmAppointment."
+        },
+        {
+          "info": {
+            "name": "Confirm an appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId/confirm",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Marks an appointment as confirmed. Confirmed to exist: developer.phorest.com/reference/confirmappointments; sub-path modeled by convention."
+        },
+        {
+          "info": {
+            "name": "Check in an appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/appointment/:appointmentId/checkin",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Checks a client in for an appointment. Confirmed to exist: developer.phorest.com/reference/checkin_1; sub-path modeled by convention."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

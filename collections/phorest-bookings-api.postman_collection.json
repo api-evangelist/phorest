@@ -1,0 +1,1636 @@
+{
+  "item": [
+    {
+      "id": "d65922a2-226a-47cc-b3e5-07be4321c0b0",
+      "name": "Bookings",
+      "description": {
+        "content": "Booking creation and lifecycle, plus real-time availability checks.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7fc38cb0-356f-4e33-8159-5352eb5e2619",
+          "name": "Check appointment availability",
+          "request": {
+            "name": "Check appointment availability",
+            "description": {
+              "content": "Returns available appointment slots for a set of requested services within a time window; optionally scoped to a client or an existing booking being rescheduled. Confirmed: developer.phorest.com/reference/checkappointmentavailability.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "appointments",
+                "availability"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d3aa93e7-8246-4a14-b8b1-6bb14ede3fa0",
+              "name": "Appointment availabilities listed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "appointments",
+                    "availability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"availableSlots\": [\n    {\n      \"startTime\": \"1951-07-11T15:30:42.647Z\",\n      \"endTime\": \"1986-08-05T05:49:01.035Z\",\n      \"staffId\": \"string\"\n    },\n    {\n      \"startTime\": \"2001-03-02T14:31:08.107Z\",\n      \"endTime\": \"2003-12-04T08:02:46.305Z\",\n      \"staffId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e58f54d1-10bb-463b-935c-d6ec7c6a1c66",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "appointments",
+                    "availability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4a204c02-49b6-4d4c-bf92-ce40d9ff0fa8",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "appointments",
+                    "availability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24be69a0-e4a1-404e-9a41-8a56ed7b1fff",
+              "name": "Request rate limit exceeded. Current limit set to 100 requests per second.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "appointments",
+                    "availability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f0384102-b34d-4739-a2ae-81adf22d89e6",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "appointments",
+                    "availability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"clientServiceSelections\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"clientId\": \"<string>\",\n  \"rescheduleBookingId\": \"<string>\",\n  \"isOnlineAvailability\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d86747bd-2d5b-40af-b66b-800214b230a3",
+          "name": "Create a booking",
+          "request": {
+            "name": "Create a booking",
+            "description": {
+              "content": "Creates a booking (one or more scheduled services) for a client. Confirmed: developer.phorest.com/reference/createbooking.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "booking"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71c49f1f-3d8e-40a2-b64d-7a21718c3967",
+              "name": "Booking created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ],\n  \"bookingId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ab7426b-dca9-4325-b238-d591f817de51",
+              "name": "Booking data is invalid, unable to create a booking.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a396110d-99c4-459a-9393-51d0b693cf1e",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "484f3004-09b1-4835-9d0f-4fb44f9012f6",
+              "name": "Request rate limit exceeded. Current limit set to 100 requests per second.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "502784cf-6a7c-4fdd-87e3-31368c84d2ce",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"bookingStatus\": \"<string>\",\n  \"note\": \"<string>\",\n  \"clientAppointmentSchedules\": [\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    },\n    {\n      \"serviceId\": \"<string>\",\n      \"staffId\": \"<string>\",\n      \"startTime\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71ba7679-2bea-492e-b4ee-d8f980a5d391",
+          "name": "Cancel a booking",
+          "request": {
+            "name": "Cancel a booking",
+            "description": {
+              "content": "Cancels a booking. Confirmed to exist: developer.phorest.com/reference/cancelbooking; sub-path modeled by convention.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "booking",
+                ":bookingId",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c05b8417-31d9-404b-aa8e-b118acdfe64f",
+              "name": "Booking canceled successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "68427bcc-c532-4a6a-a03a-81582469f206",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb31f220-595e-4f60-b80b-ecbe438f52f9",
+          "name": "Activate a reserved booking",
+          "request": {
+            "name": "Activate a reserved booking",
+            "description": {
+              "content": "Activates a RESERVED booking, turning a temporary hold into an ACTIVE booking. Confirmed to exist: developer.phorest.com/reference/activatebooking; sub-path modeled by convention.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "booking",
+                ":bookingId",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5a6adeb1-ab9c-4ea2-b8bf-f173be2fd054",
+              "name": "Booking activated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b49acd6a-7fb4-427b-b4bd-0d0ef5c46533",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da98d35b-44c6-4a4d-921d-90f633a170a3",
+          "name": "Append a note to a booking",
+          "request": {
+            "name": "Append a note to a booking",
+            "description": {
+              "content": "Appends a service/colour note to an existing booking. Confirmed to exist: developer.phorest.com/reference/appendnotetobooking; sub-path modeled by convention.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "booking",
+                ":bookingId",
+                "note"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9fac57ad-b975-4872-b428-a9e1ac27d9c9",
+              "name": "Note appended successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "note"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d31e7599-392b-4e79-8cfb-30ed0ed2970c",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "booking",
+                    ":bookingId",
+                    "note"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bookingId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ff30437-ed83-4ebf-9edf-27ff5ff67ae3",
+          "name": "Create a deposit payment link",
+          "request": {
+            "name": "Create a deposit payment link",
+            "description": {
+              "content": "Creates a hosted payment link so a client can pay a booking deposit online. Confirmed to exist: developer.phorest.com/reference/createdepositpaymentlink; sub-path modeled by convention.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "branch",
+                ":branchId",
+                "deposit-payment-link"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "branchId",
+                  "description": "(Required) The Phorest branch (location) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"<string>\",\n  \"amount\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "39829d0d-079d-4371-8788-a079cef2204f",
+              "name": "Deposit payment link created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "deposit-payment-link"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"<string>\",\n  \"amount\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentLinkUrl\": \"http://QU.ebtiB.,O-5cbNWaKPNnaGs9NHkjaX2Vvrww,piJ,G9xBF-+xle4ebsIwn+KK2k2I.hxmC\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6868616-e780-4439-a2ad-da803d987264",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "branch",
+                    ":branchId",
+                    "deposit-payment-link"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "branchId",
+                      "description": "(Required) The Phorest branch (location) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"<string>\",\n  \"amount\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0fc0e325-773c-4d06-b6ee-c8899d421d47",
+    "name": "Phorest Third-Party Appointments Bookings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.\n\nContact Support:\n Name: Phorest API Support\n Email: api-requests@phorest.com",
+      "type": "text/plain"
+    }
+  }
+}

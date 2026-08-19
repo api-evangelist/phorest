@@ -1,0 +1,1278 @@
+{
+  "item": [
+    {
+      "id": "7cdcdaa4-15b9-419a-a26f-a446513a6ba7",
+      "name": "Vouchers",
+      "description": {
+        "content": "Gift voucher creation, lookup, and balance updates.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e047278e-5016-40d3-8191-6c45e4cd5122",
+          "name": "List vouchers",
+          "request": {
+            "name": "List vouchers",
+            "description": {
+              "content": "Lists gift vouchers for a business, filterable by client, serial number, and update time. Confirmed: developer.phorest.com/reference/getvouchers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "voucher"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "clientId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "serialNumber",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeUsed",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_to",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "20",
+                  "description": "Records per page. Max 100, defaults to 20."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Zero-indexed page number. Defaults to 0."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7779fb2-314d-4fb5-a1d2-72b1149671a9",
+              "name": "Vouchers listed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serialNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUsed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "updated_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"issueDate\": \"1973-09-11T06:52:23.910Z\",\n    \"expiryDate\": \"2013-04-29T05:43:57.010Z\",\n    \"creatingBranchId\": \"string\",\n    \"originalBalance\": 3218.2281709592276,\n    \"serialNumber\": \"string\",\n    \"clientId\": \"string\",\n    \"notes\": \"string\",\n    \"voucherId\": \"string\",\n    \"remainingBalance\": 5426.333310150903\n  },\n  {\n    \"issueDate\": \"1977-07-25T00:13:01.532Z\",\n    \"expiryDate\": \"1953-09-29T03:34:01.852Z\",\n    \"creatingBranchId\": \"string\",\n    \"originalBalance\": 6439.68291232326,\n    \"serialNumber\": \"string\",\n    \"clientId\": \"string\",\n    \"notes\": \"string\",\n    \"voucherId\": \"string\",\n    \"remainingBalance\": 1501.9753593758035\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "224a819f-d3c8-4330-9daf-2877ec6bf0b9",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serialNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUsed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "updated_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f5423da6-c457-4c2b-a4d6-2e5804fc9148",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serialNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUsed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "updated_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8b73ea0f-4948-4f3c-af77-cbd3c2b245d9",
+              "name": "Request rate limit exceeded. Current limit set to 100 requests per second.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serialNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUsed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "updated_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4364173f-fbf6-414d-8c1f-b368fd1ee4e2",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serialNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUsed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "updated_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2653c508-086d-490f-8829-66bbb0818847",
+          "name": "Create a voucher",
+          "request": {
+            "name": "Create a voucher",
+            "description": {
+              "content": "Creates a gift voucher for a business. Confirmed: developer.phorest.com/reference/createvoucher.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "voucher"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13a49fe9-279e-4c88-9d46-1d846c0d30a7",
+              "name": "Voucher created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"voucherId\": \"string\",\n  \"remainingBalance\": 7324.658625878718\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fbaafca6-5ef2-439a-835f-d3072cf6e872",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ab2f999d-8f42-48a8-beb6-60841ae2e18e",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "30715e95-1974-40d3-94a7-23ab0a3c5b4e",
+              "name": "A voucher with the specified serial number already exists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9bf1993-2175-4ee2-9c1c-226824f2606f",
+              "name": "Request rate limit exceeded. Current limit set to 100 requests per second.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f2171aeb-0dd5-4204-8c96-f44d37eec907",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e20effb5-8a90-480b-ae97-60304c2e551e",
+          "name": "Retrieve a voucher",
+          "request": {
+            "name": "Retrieve a voucher",
+            "description": {
+              "content": "Retrieves a single voucher by ID. Confirmed: developer.phorest.com/reference/getvoucher.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "voucher",
+                ":voucherId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voucherId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4c35667-dcbb-4f2e-a04b-09260479b1b7",
+              "name": "The requested voucher.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher",
+                    ":voucherId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voucherId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"voucherId\": \"string\",\n  \"remainingBalance\": 7324.658625878718\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6489e805-051c-4a85-b4e7-928ae4320ff5",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher",
+                    ":voucherId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voucherId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "990a9434-c236-4311-ad2b-b4efaa7948c1",
+          "name": "Update a voucher's balance",
+          "request": {
+            "name": "Update a voucher's balance",
+            "description": {
+              "content": "Updates a voucher's remaining balance. Confirmed: developer.phorest.com/reference/updatevoucherbalance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":businessId",
+                "voucher",
+                ":voucherId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "businessId",
+                  "description": "(Required) The Phorest business (salon group) identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voucherId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remainingBalance\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8da15458-f39b-4113-aad3-0818133e58a3",
+              "name": "Voucher balance updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher",
+                    ":voucherId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voucherId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"remainingBalance\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"issueDate\": \"<dateTime>\",\n  \"expiryDate\": \"<dateTime>\",\n  \"creatingBranchId\": \"<string>\",\n  \"originalBalance\": \"<number>\",\n  \"serialNumber\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"voucherId\": \"string\",\n  \"remainingBalance\": 7324.658625878718\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c9ae8ba-0223-477b-a398-1680e2ee13dc",
+              "name": "The specified business, branch, or resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":businessId",
+                    "voucher",
+                    ":voucherId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "businessId",
+                      "description": "(Required) The Phorest business (salon group) identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voucherId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"remainingBalance\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "94118cdc-6cb4-43a4-b92f-fd3597e2a004",
+    "name": "Phorest Third-Party Appointments Vouchers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.\n\nContact Support:\n Name: Phorest API Support\n Email: api-requests@phorest.com",
+      "type": "text/plain"
+    }
+  }
+}

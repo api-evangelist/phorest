@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Phorest Third-Party Appointments Reporting API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a CSV export job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/csvexportjob",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an asynchronous CSV export job (transactions, sundries, DATEV, client courses, client-course transactions, or clients) over a date range. Confirmed: developer.phorest.com/reference/createcsvexportjob."
+        },
+        {
+          "info": {
+            "name": "Retrieve a CSV export job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/csvexportjob/:jobId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Polls a CSV export job for status and, once complete, a download URL. Confirmed: developer.phorest.com/reference/getcsvexportjob."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

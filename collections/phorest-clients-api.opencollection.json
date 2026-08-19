@@ -1,0 +1,260 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Phorest Third-Party Appointments Clients API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "phone",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "firstName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "lastName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "externalId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updatedAfter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updatedBefore",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeDeleted",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists clients for a business, filterable by email, phone, name, or update time. Confirmed: developer.phorest.com/reference/getclients."
+        },
+        {
+          "info": {
+            "name": "Create a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a client - for example from a website newsletter signup. Confirmed: developer.phorest.com/docs/using-the-client-endpoint."
+        },
+        {
+          "info": {
+            "name": "Retrieve a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client/:clientId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single client by ID. Modeled by convention from the confirmed getClients/updateClient siblings - not shown as its own text page in the public reference."
+        },
+        {
+          "info": {
+            "name": "Update a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client/:clientId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing client. The request body must include the client's current `version`; Phorest increments it on success. Confirmed: developer.phorest.com/docs/using-the-client-endpoint."
+        },
+        {
+          "info": {
+            "name": "Retrieve the walk-in client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/client/walkin",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves the business's placeholder \"walk-in\" client record, used for bookings/purchases with no named client. Modeled from the reference page name getwalkinclient by convention with the client resource root."
+        },
+        {
+          "info": {
+            "name": "List client categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/category/client",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists client categories used for marketing/newsletter segmentation. Confirmed: developer.phorest.com/reference/getclientcategories."
+        },
+        {
+          "info": {
+            "name": "Retrieve a client category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/category/client/:categoryId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "categoryId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single client category by ID. Modeled by convention from the confirmed getClientCategories sibling."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,223 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Phorest Third-Party Appointments Services API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List branch services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists services offered at a branch, with price and duration data. Modeled by convention: the item path GET /{businessId}/branch/{branchId}/service/{serviceId} is confirmed at developer.phorest.com/reference/getservice (\"Retrieve a branch service\"); the bare collection path follows the same list/item pattern confirmed across every other resource in this API."
+        },
+        {
+          "info": {
+            "name": "Retrieve a branch service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service/:serviceId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fetch_online_category",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves a single branch service by ID, with an optional flag to include its online category. Confirmed: developer.phorest.com/reference/getservice."
+        },
+        {
+          "info": {
+            "name": "List service categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service-category",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists service categories for a branch. Confirmed: developer.phorest.com/reference/getservicecategories."
+        },
+        {
+          "info": {
+            "name": "List service packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/package",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists bundled service packages for a branch, filterable by service category. Confirmed: developer.phorest.com/reference/getservicepackages."
+        },
+        {
+          "info": {
+            "name": "List service special offers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-gateway-eu.phorest.com/third-party-api-server/api/business/:businessId/branch/:branchId/service-special-offer",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest business (salon group) identifier."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path",
+                "description": "The Phorest branch (location) identifier."
+              },
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Records per page. Max 100, defaults to 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-indexed page number. Defaults to 0."
+              }
+            ]
+          },
+          "docs": "Lists discounted service special offers for a branch, filterable by service category. Confirmed: developer.phorest.com/reference/getservices_1."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
