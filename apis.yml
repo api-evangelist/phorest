@@ -34,7 +34,7 @@ tags:
 - Vertical SaaS
 created: '2026-07-03'
 modified: '2026-07-03'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: phorest:phorest-appointments-api
   name: Phorest Appointments API
