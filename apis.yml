@@ -29,6 +29,13 @@ tags:
 - Salon Software
 - Spa Software
 - Scheduling
+- Point-of-Sale
+- Business Management
+- Vertical SaaS
+tags_raw:
+- Salon Software
+- Spa Software
+- Scheduling
 - Point of Sale
 - Business Management
 - Vertical SaaS
@@ -378,6 +385,8 @@ apis:
   humanURL: https://developer.phorest.com/reference/getclients
   baseURL: https://api-gateway-eu.phorest.com/third-party-api-server/api/business
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
