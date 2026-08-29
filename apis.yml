@@ -11,6 +11,18 @@ description: Phorest is salon and spa business management software (scheduling, 
   staff, services, products, purchases, vouchers, and reporting data so approved
   developers can build custom booking flows, e-commerce integrations, call-centre
   lookups, and reporting tools on top of a salon's Phorest data.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
