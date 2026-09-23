@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Phorest Third-Party Appointments Reporting API
-  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  title: Phorest Third-Party Reporting API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators.
   version: '1.0'
   contact:
     name: Phorest API Support
@@ -100,14 +100,29 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
+    BadRequest:
+      description: The request was invalid.
+    ServerError:
+      description: Internal server error.
     RateLimited:
       description: Request rate limit exceeded. Current limit set to 100 requests per second.
     NotFound:
       description: The specified business, branch, or resource does not exist.
-    ServerError:
-      description: Internal server error.
-    BadRequest:
-      description: The request was invalid.
+  parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
   schemas:
     CsvExportJob:
       type: object
@@ -133,21 +148,6 @@ components:
         downloadUrl:
           type: string
           format: uri
-  parameters:
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http

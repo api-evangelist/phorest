@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Phorest Third-Party Appointments Clients API
-  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators. Access is granted by Phorest support on request (quoting a Phorest Account Number), not through self-service signup. Requests use HTTP Basic authentication with a `global/{email}` username and a Phorest-issued API password, and are scoped in the URL path to a `businessId` and, for most resources, a `branchId`. Endpoints, methods, and parameters in this document are transcribed from Phorest's public API reference at developer.phorest.com/reference; a small number of item-level paths (marked in their description) are modeled by convention from the confirmed collection-level siblings because Phorest's public reference does not expose every single-resource path in plain text.
+  title: Phorest Third-Party Clients API
+  description: The Phorest API exposes a partner-gated business's salon/spa data - clients, appointments, bookings, staff, services, products, purchases, vouchers, loyalty, and reporting - for approved integrators.
   version: '1.0'
   contact:
     name: Phorest API Support
@@ -236,67 +236,13 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
-  schemas:
-    ClientCategory:
-      type: object
-      properties:
-        categoryId:
-          type: string
-        name:
-          type: string
-        archived:
-          type: boolean
-    Client:
-      allOf:
-      - $ref: '#/components/schemas/ClientInput'
-      - type: object
-        properties:
-          clientId:
-            type: string
-          version:
-            type: integer
-          creatingBranchId:
-            type: string
-            readOnly: true
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-    ClientInput:
-      type: object
-      required:
-      - firstName
-      - lastName
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        mobile:
-          type: string
-        address:
-          type: string
-        birthDate:
-          type: string
-          format: date
-        version:
-          type: integer
-          description: Required on update; omit on create.
   parameters:
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -320,12 +266,66 @@ components:
         type: integer
         default: 20
         maximum: 100
-    ClientId:
-      name: clientId
-      in: path
-      required: true
-      schema:
-        type: string
+  responses:
+    BadRequest:
+      description: The request was invalid.
+    ServerError:
+      description: Internal server error.
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+  schemas:
+    ClientInput:
+      type: object
+      required:
+      - firstName
+      - lastName
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        mobile:
+          type: string
+        address:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        version:
+          type: integer
+          description: Required on update; omit on create.
+    Client:
+      allOf:
+      - $ref: '#/components/schemas/ClientInput'
+      - type: object
+        properties:
+          clientId:
+            type: string
+          version:
+            type: integer
+          creatingBranchId:
+            type: string
+            readOnly: true
+          createdAt:
+            type: string
+            format: date-time
+          updatedAt:
+            type: string
+            format: date-time
+    ClientCategory:
+      type: object
+      properties:
+        categoryId:
+          type: string
+        name:
+          type: string
+        archived:
+          type: boolean
   securitySchemes:
     basicAuth:
       type: http
