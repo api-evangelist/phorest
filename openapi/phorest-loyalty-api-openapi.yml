@@ -69,10 +69,10 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    BadRequest:
-      description: The request was invalid.
     RateLimited:
       description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
     NotFound:
       description: The specified business, branch, or resource does not exist.
   parameters:

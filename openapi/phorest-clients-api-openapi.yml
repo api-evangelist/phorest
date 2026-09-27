@@ -237,12 +237,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    ClientId:
-      name: clientId
-      in: path
-      required: true
-      schema:
-        type: string
     Page:
       name: page
       in: query
@@ -251,11 +245,10 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BusinessId:
-      name: businessId
+    ClientId:
+      name: clientId
       in: path
       required: true
-      description: The Phorest business (salon group) identifier.
       schema:
         type: string
     Size:
@@ -266,16 +259,41 @@ components:
         type: integer
         default: 20
         maximum: 100
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
   responses:
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
     RateLimited:
       description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
     NotFound:
       description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
   schemas:
+    Client:
+      allOf:
+      - $ref: '#/components/schemas/ClientInput'
+      - type: object
+        properties:
+          clientId:
+            type: string
+          version:
+            type: integer
+          creatingBranchId:
+            type: string
+            readOnly: true
+          createdAt:
+            type: string
+            format: date-time
+          updatedAt:
+            type: string
+            format: date-time
     ClientInput:
       type: object
       required:
@@ -299,24 +317,6 @@ components:
         version:
           type: integer
           description: Required on update; omit on create.
-    Client:
-      allOf:
-      - $ref: '#/components/schemas/ClientInput'
-      - type: object
-        properties:
-          clientId:
-            type: string
-          version:
-            type: integer
-          creatingBranchId:
-            type: string
-            readOnly: true
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
     ClientCategory:
       type: object
       properties:

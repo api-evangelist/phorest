@@ -232,16 +232,72 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
   responses:
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
     RateLimited:
       description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
     NotFound:
       description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
   schemas:
+    Staff:
+      type: object
+      properties:
+        staffId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        archived:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+    StaffBreak:
+      allOf:
+      - $ref: '#/components/schemas/StaffBreakInput'
+      - type: object
+        properties:
+          breakId:
+            type: string
     StaffBreakInput:
       type: object
       properties:
@@ -267,62 +323,6 @@ components:
         endTime:
           type: string
           format: date-time
-    StaffBreak:
-      allOf:
-      - $ref: '#/components/schemas/StaffBreakInput'
-      - type: object
-        properties:
-          breakId:
-            type: string
-    Staff:
-      type: object
-      properties:
-        staffId:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        archived:
-          type: boolean
-        roles:
-          type: array
-          items:
-            type: string
-  parameters:
-    Page:
-      name: page
-      in: query
-      description: Zero-indexed page number. Defaults to 0.
-      schema:
-        type: integer
-        default: 0
-        minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
-    Size:
-      name: size
-      in: query
-      description: Records per page. Max 100, defaults to 20.
-      schema:
-        type: integer
-        default: 20
-        maximum: 100
   securitySchemes:
     basicAuth:
       type: http

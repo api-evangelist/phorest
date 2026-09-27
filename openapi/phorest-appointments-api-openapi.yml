@@ -209,15 +209,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
   parameters:
     Page:
       name: page
@@ -233,20 +224,6 @@ components:
       required: true
       schema:
         type: string
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -255,21 +232,30 @@ components:
         type: integer
         default: 20
         maximum: 100
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
   schemas:
-    Appointment:
-      allOf:
-      - $ref: '#/components/schemas/AppointmentInput'
-      - type: object
-        properties:
-          appointmentId:
-            type: string
-          state:
-            type: string
-            enum:
-            - ACTIVE
-            - RESERVED
-            - CANCELED
-            - ARCHIVED
     AppointmentInput:
       type: object
       properties:
@@ -292,6 +278,20 @@ components:
         note:
           type: string
           maxLength: 50000
+    Appointment:
+      allOf:
+      - $ref: '#/components/schemas/AppointmentInput'
+      - type: object
+        properties:
+          appointmentId:
+            type: string
+          state:
+            type: string
+            enum:
+            - ACTIVE
+            - RESERVED
+            - CANCELED
+            - ARCHIVED
   securitySchemes:
     basicAuth:
       type: http

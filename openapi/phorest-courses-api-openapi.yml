@@ -117,12 +117,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    ClientId:
-      name: clientId
-      in: path
-      required: true
-      schema:
-        type: string
     Page:
       name: page
       in: query
@@ -131,18 +125,10 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
+    ClientId:
+      name: clientId
       in: path
       required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
       schema:
         type: string
     Size:
@@ -153,21 +139,21 @@ components:
         type: integer
         default: 20
         maximum: 100
-  responses:
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
   schemas:
-    Course:
-      type: object
-      properties:
-        courseId:
-          type: string
-        name:
-          type: string
-        totalSessions:
-          type: integer
-        archived:
-          type: boolean
     ClientCourse:
       type: object
       properties:
@@ -179,6 +165,20 @@ components:
           type: string
         remainingSessions:
           type: integer
+    Course:
+      type: object
+      properties:
+        courseId:
+          type: string
+        name:
+          type: string
+        totalSessions:
+          type: integer
+        archived:
+          type: boolean
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   securitySchemes:
     basicAuth:
       type: http

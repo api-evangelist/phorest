@@ -96,20 +96,6 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -118,6 +104,23 @@ components:
         type: integer
         default: 20
         maximum: 100
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   schemas:
     Review:
       type: object
@@ -135,9 +138,6 @@ components:
         reviewDate:
           type: string
           format: date
-  responses:
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
   securitySchemes:
     basicAuth:
       type: http

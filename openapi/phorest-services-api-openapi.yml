@@ -162,20 +162,6 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -184,22 +170,21 @@ components:
         type: integer
         default: 20
         maximum: 100
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
   schemas:
-    Service:
-      type: object
-      properties:
-        serviceId:
-          type: string
-        name:
-          type: string
-        categoryId:
-          type: string
-        price:
-          type: number
-        durationMinutes:
-          type: integer
-        archived:
-          type: boolean
     ServicePackage:
       type: object
       properties:
@@ -230,6 +215,21 @@ components:
         endDate:
           type: string
           format: date
+    Service:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        name:
+          type: string
+        categoryId:
+          type: string
+        price:
+          type: number
+        durationMinutes:
+          type: integer
+        archived:
+          type: boolean
     ServiceCategory:
       type: object
       properties:

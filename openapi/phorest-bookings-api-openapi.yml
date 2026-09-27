@@ -195,6 +195,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    ServerError:
+      description: Internal server error.
   schemas:
     BookingInput:
       type: object
@@ -224,24 +233,6 @@ components:
               startTime:
                 type: string
                 format: date-time
-    AvailabilitySlot:
-      type: object
-      properties:
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-        staffId:
-          type: string
-    Booking:
-      allOf:
-      - $ref: '#/components/schemas/BookingInput'
-      - type: object
-        properties:
-          bookingId:
-            type: string
     AvailabilityRequest:
       type: object
       required:
@@ -270,28 +261,37 @@ components:
           type: string
         isOnlineAvailability:
           type: boolean
-  responses:
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
+    Booking:
+      allOf:
+      - $ref: '#/components/schemas/BookingInput'
+      - type: object
+        properties:
+          bookingId:
+            type: string
+    AvailabilitySlot:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        staffId:
+          type: string
   parameters:
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
     BusinessId:
       name: businessId
       in: path
       required: true
       description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
       schema:
         type: string
   securitySchemes:
