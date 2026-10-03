@@ -102,12 +102,27 @@ components:
   responses:
     RateLimited:
       description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    BadRequest:
-      description: The request was invalid.
     NotFound:
       description: The specified business, branch, or resource does not exist.
+    BadRequest:
+      description: The request was invalid.
     ServerError:
       description: Internal server error.
+  parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
   schemas:
     CsvExportJob:
       type: object
@@ -133,21 +148,6 @@ components:
         downloadUrl:
           type: string
           format: uri
-  parameters:
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http

@@ -153,40 +153,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  schemas:
-    VoucherInput:
-      type: object
-      required:
-      - issueDate
-      - expiryDate
-      - creatingBranchId
-      - originalBalance
-      properties:
-        serialNumber:
-          type: string
-        issueDate:
-          type: string
-          format: date-time
-        expiryDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-        creatingBranchId:
-          type: string
-        originalBalance:
-          type: number
-        notes:
-          type: string
-    Voucher:
-      allOf:
-      - $ref: '#/components/schemas/VoucherInput'
-      - type: object
-        properties:
-          voucherId:
-            type: string
-          remainingBalance:
-            type: number
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
+    BadRequest:
+      description: The request was invalid.
+    ServerError:
+      description: Internal server error.
   parameters:
     Page:
       name: page
@@ -211,15 +186,40 @@ components:
       description: The Phorest business (salon group) identifier.
       schema:
         type: string
-  responses:
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    BadRequest:
-      description: The request was invalid.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
-    ServerError:
-      description: Internal server error.
+  schemas:
+    Voucher:
+      allOf:
+      - $ref: '#/components/schemas/VoucherInput'
+      - type: object
+        properties:
+          voucherId:
+            type: string
+          remainingBalance:
+            type: number
+    VoucherInput:
+      type: object
+      required:
+      - issueDate
+      - expiryDate
+      - creatingBranchId
+      - originalBalance
+      properties:
+        serialNumber:
+          type: string
+        issueDate:
+          type: string
+          format: date-time
+        expiryDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        creatingBranchId:
+          type: string
+        originalBalance:
+          type: number
+        notes:
+          type: string
   securitySchemes:
     basicAuth:
       type: http

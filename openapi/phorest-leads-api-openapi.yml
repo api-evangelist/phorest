@@ -109,6 +109,13 @@ paths:
                 $ref: '#/components/schemas/Lead'
 components:
   parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -130,13 +137,6 @@ components:
       in: path
       required: true
       description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
       schema:
         type: string
   schemas:
