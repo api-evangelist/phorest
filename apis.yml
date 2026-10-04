@@ -733,6 +733,9 @@ apis:
   - type: APIReference
     url: https://developer.phorest.com/reference/getreviewlist
 common:
+- type: CapabilityMap
+  url: capabilities/phorest-capability-edges.yml
+  name: Phorest Business Capability Map
 - type: AgenticAccess
   url: agentic-access/phorest-agentic-access.yml
 - type: TrustCenter
