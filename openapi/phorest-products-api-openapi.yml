@@ -89,15 +89,29 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   responses:
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
     BadRequest:
       description: The request was invalid.
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
     ServerError:
       description: Internal server error.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -106,13 +120,6 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -121,13 +128,6 @@ components:
         type: integer
         default: 20
         maximum: 100
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
   schemas:
     Product:
       type: object

@@ -153,40 +153,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/ServiceSpecialOffer'
 components:
-  responses:
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
-  parameters:
-    Page:
-      name: page
-      in: query
-      description: Zero-indexed page number. Defaults to 0.
-      schema:
-        type: integer
-        default: 0
-        minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    Size:
-      name: size
-      in: query
-      description: Records per page. Max 100, defaults to 20.
-      schema:
-        type: integer
-        default: 20
-        maximum: 100
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
   schemas:
     ServiceCategory:
       type: object
@@ -195,21 +161,6 @@ components:
           type: string
         name:
           type: string
-    Service:
-      type: object
-      properties:
-        serviceId:
-          type: string
-        name:
-          type: string
-        categoryId:
-          type: string
-        price:
-          type: number
-        durationMinutes:
-          type: integer
-        archived:
-          type: boolean
     ServiceSpecialOffer:
       type: object
       properties:
@@ -225,6 +176,21 @@ components:
         endDate:
           type: string
           format: date
+    Service:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        name:
+          type: string
+        categoryId:
+          type: string
+        price:
+          type: number
+        durationMinutes:
+          type: integer
+        archived:
+          type: boolean
     ServicePackage:
       type: object
       properties:
@@ -240,6 +206,40 @@ components:
           type: array
           items:
             type: string
+  parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   securitySchemes:
     basicAuth:
       type: http

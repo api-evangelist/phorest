@@ -116,10 +116,27 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
   parameters:
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      schema:
+        type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -128,19 +145,6 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    ClientId:
-      name: clientId
-      in: path
-      required: true
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -149,13 +153,9 @@ components:
         type: integer
         default: 20
         maximum: 100
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   schemas:
     ClientCourse:
       type: object

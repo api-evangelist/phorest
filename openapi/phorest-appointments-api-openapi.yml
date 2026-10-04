@@ -209,6 +209,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid.
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    ServerError:
+      description: Internal server error.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   schemas:
     AppointmentInput:
       type: object
@@ -246,39 +255,7 @@ components:
             - RESERVED
             - CANCELED
             - ARCHIVED
-  responses:
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
   parameters:
-    Page:
-      name: page
-      in: query
-      description: Zero-indexed page number. Defaults to 0.
-      schema:
-        type: integer
-        default: 0
-        minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
-    Size:
-      name: size
-      in: query
-      description: Records per page. Max 100, defaults to 20.
-      schema:
-        type: integer
-        default: 20
-        maximum: 100
     AppointmentId:
       name: appointmentId
       in: path
@@ -292,6 +269,29 @@ components:
       description: The Phorest business (salon group) identifier.
       schema:
         type: string
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      description: Zero-indexed page number. Defaults to 0.
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+    Size:
+      name: size
+      in: query
+      description: Records per page. Max 100, defaults to 20.
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
   securitySchemes:
     basicAuth:
       type: http

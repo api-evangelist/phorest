@@ -116,6 +116,13 @@ components:
       description: The Phorest branch (location) identifier.
       schema:
         type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -132,13 +139,6 @@ components:
         type: integer
         default: 20
         maximum: 100
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
   schemas:
     Lead:
       type: object

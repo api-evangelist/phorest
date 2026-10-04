@@ -176,16 +176,18 @@ paths:
                 items:
                   $ref: '#/components/schemas/SaleFee'
 components:
-  responses:
-    RateLimited:
-      description: Request rate limit exceeded. Current limit set to 100 requests per second.
-    NotFound:
-      description: The specified business, branch, or resource does not exist.
-    BadRequest:
-      description: The request was invalid.
-    ServerError:
-      description: Internal server error.
   schemas:
+    SaleFee:
+      type: object
+      properties:
+        saleFeeId:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+        archived:
+          type: boolean
     TillBalance:
       type: object
       properties:
@@ -200,6 +202,32 @@ components:
           items:
             type: object
             additionalProperties: true
+    Purchase:
+      allOf:
+      - $ref: '#/components/schemas/PurchaseInput'
+      - type: object
+        properties:
+          purchaseId:
+            type: string
+          transactionId:
+            type: string
+            description: Unique per branch only; combine with branchId to disambiguate across branches. Not present in the SQS purchase event.
+          branchId:
+            type: string
+    InventoryTransaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+        productId:
+          type: string
+        quantityChange:
+          type: number
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
     PurchaseInput:
       type: object
       required:
@@ -240,44 +268,30 @@ components:
                 type: integer
               price:
                 type: number
-    InventoryTransaction:
-      type: object
-      properties:
-        transactionId:
-          type: string
-        productId:
-          type: string
-        quantityChange:
-          type: number
-        reason:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-    Purchase:
-      allOf:
-      - $ref: '#/components/schemas/PurchaseInput'
-      - type: object
-        properties:
-          purchaseId:
-            type: string
-          transactionId:
-            type: string
-            description: Unique per branch only; combine with branchId to disambiguate across branches. Not present in the SQS purchase event.
-          branchId:
-            type: string
-    SaleFee:
-      type: object
-      properties:
-        saleFeeId:
-          type: string
-        name:
-          type: string
-        amount:
-          type: number
-        archived:
-          type: boolean
+  responses:
+    RateLimited:
+      description: Request rate limit exceeded. Current limit set to 100 requests per second.
+    BadRequest:
+      description: The request was invalid.
+    ServerError:
+      description: Internal server error.
+    NotFound:
+      description: The specified business, branch, or resource does not exist.
   parameters:
+    BranchId:
+      name: branchId
+      in: path
+      required: true
+      description: The Phorest branch (location) identifier.
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      description: The Phorest business (salon group) identifier.
+      schema:
+        type: string
     Page:
       name: page
       in: query
@@ -286,13 +300,6 @@ components:
         type: integer
         default: 0
         minimum: 0
-    BranchId:
-      name: branchId
-      in: path
-      required: true
-      description: The Phorest branch (location) identifier.
-      schema:
-        type: string
     Size:
       name: size
       in: query
@@ -301,13 +308,6 @@ components:
         type: integer
         default: 20
         maximum: 100
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      description: The Phorest business (salon group) identifier.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http
