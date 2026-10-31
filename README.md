@@ -1,4 +1,4 @@
-# Phorest (phorest)
+# Phorest
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,221 +66,143 @@
 
 Phorest is salon and spa business management software (scheduling, point of sale, client marketing, online booking, and reporting) used by hair, beauty, and med-spa businesses across the UK, Ireland, mainland Europe, North America, and Australia. Partner-gated access is granted to the Phorest API (also called Phorest Connect by some partners) on request - a REST, basic-authenticated API scoped per business and branch that exposes clients, appointments/bookings, staff, services, products, purchases, vouchers, and reporting data so approved developers can build custom booking flows, e-commerce integrations, call-centre lookups, and reporting tools on top of a salon's Phorest data.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/phorest/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/phorest/refs/heads/main/apis.yml)
+**Areas:** Salon Software · Spa Software · Scheduling · Point-of-Sale · Business Management · Vertical SaaS
 
-## Access model
+## Phorest on APIs.io
 
-The Phorest API is not self-serve. Access is requested from the Phorest support/API team (`api-requests@phorest.com`), quoting the requesting business's Phorest Account Number. Once granted, requests are authenticated with HTTP Basic auth using a `global/{email}` username and an API password issued by Phorest, and are scoped to a `businessId` (and, for most resources, a `branchId`) in the URL path. There is no public self-signup developer console and no sandbox account creation flow; this repository documents the API from Phorest's public reference documentation (`developer.phorest.com`) and support articles, honestly marking endpoints that are confirmed from that public reference versus anything modeled.
+Everything profiled for Phorest is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/phorest/](https://apis.io/providers/phorest/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (14)
 
-- Salon Software
-- Spa Software
-- Scheduling
-- Point of Sale
-- Business Management
-- Vertical SaaS
+- [Phorest Appointments API](https://apis.io/apis/phorest/phorest-appointments-api/) — Appointment lifecycle - list, retrieve, update, cancel, confirm, check in.
+- [Phorest Bookings API](https://apis.io/apis/phorest/phorest-bookings-api/) — Booking creation and lifecycle, plus real-time availability checks.
+- [Phorest Branches API](https://apis.io/apis/phorest/phorest-branches-api/) — Branches (locations), rooms, machines, and tax rates.
+- [Phorest Clients API](https://apis.io/apis/phorest/phorest-clients-api/) — Client (customer) records and client categories.
+- [Phorest Courses API](https://apis.io/apis/phorest/phorest-courses-api/) — Course templates and a client's purchased course sessions.
+- [Phorest Leads API](https://apis.io/apis/phorest/phorest-leads-api/) — Marketing leads and lead statistics.
+- [Phorest Loyalty API](https://apis.io/apis/phorest/phorest-loyalty-api/) — Client loyalty point adjustments.
+- [Phorest Products API](https://apis.io/apis/phorest/phorest-products-api/) — Retail products and inventory.
+- [Phorest Purchases API](https://apis.io/apis/phorest/phorest-purchases-api/) — Point-of-sale purchases, stock adjustments, and till balances.
+- [Phorest Reporting API](https://apis.io/apis/phorest/phorest-reporting-api/) — Asynchronous CSV export jobs for sale-level reporting.
+- [Phorest Reviews API](https://apis.io/apis/phorest/phorest-reviews-api/) — Client reviews for syndication to external review platforms.
+- [Phorest Services API](https://apis.io/apis/phorest/phorest-services-api/) — Services, service categories, packages, and special offers.
+- [Phorest Staff API](https://apis.io/apis/phorest/phorest-staff-api/) — Staff records, rota/work-time tables, and staff breaks.
+- [Phorest Vouchers API](https://apis.io/apis/phorest/phorest-vouchers-api/) — Gift voucher creation, lookup, and balance updates.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Phorest Clients API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Create, retrieve, update, and list clients (individually or in batch) scoped to a business, including filtering by email, phone, name, or update time, plus client categories used for newsletter and marketing segmentation. Confirmed against Phorest's public API reference.
+- [Phorest Agentic Access](https://apis.io/agentic-access/phorest/phorest-agentic-access/)
 
-- **Human URL:** [https://developer.phorest.com/reference/getclients](https://developer.phorest.com/reference/getclients)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
+#### Collections (14)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Clients
-- CRM
-- Client Categories
+- [Phorest Third-Party API](https://apis.io/collections/phorest/open-phorest/)
+- [Phorest Third-Party Appointments API](https://apis.io/collections/phorest/open-phorest-appointments-api/)
+- [Phorest Third-Party Appointments Bookings API](https://apis.io/collections/phorest/open-phorest-bookings-api/)
+- [Phorest Third-Party Appointments Branches API](https://apis.io/collections/phorest/open-phorest-branches-api/)
+- [Phorest Third-Party Appointments Clients API](https://apis.io/collections/phorest/open-phorest-clients-api/)
+- [Phorest Third-Party Appointments Courses API](https://apis.io/collections/phorest/open-phorest-courses-api/)
+- [Phorest Third-Party Appointments Leads API](https://apis.io/collections/phorest/open-phorest-leads-api/)
+- [Phorest Third-Party Appointments Loyalty API](https://apis.io/collections/phorest/open-phorest-loyalty-api/)
+- [Phorest Third-Party Appointments Products API](https://apis.io/collections/phorest/open-phorest-products-api/)
+- [Phorest Third-Party Appointments Purchases API](https://apis.io/collections/phorest/open-phorest-purchases-api/)
+- [Phorest Third-Party Appointments Reporting API](https://apis.io/collections/phorest/open-phorest-reporting-api/)
+- [Phorest Third-Party Appointments Services API](https://apis.io/collections/phorest/open-phorest-services-api/)
+- [Phorest Third-Party Appointments Staff API](https://apis.io/collections/phorest/open-phorest-staff-api/)
+- [Phorest Third-Party Appointments Vouchers API](https://apis.io/collections/phorest/open-phorest-vouchers-api/)
 
-#### Properties
+#### Security (4)
 
-- [Documentation](https://developer.phorest.com/docs/using-the-client-endpoint)
-- [API Reference](https://developer.phorest.com/reference/getclients)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Authentication, trust centre, and vulnerability disclosure.
 
-### Phorest Appointments & Bookings API
+- [Phorest Authentication](https://apis.io/security/phorest/phorest-authentication/)
+- [Phorest Domain Security](https://apis.io/security/phorest/phorest-domain-security/)
+- [Phorest Trust Center](https://apis.io/security/phorest/phorest-trust-center/)
+- [Phorest Vulnerability Disclosure](https://apis.io/security/phorest/phorest-vulnerability-disclosure/)
 
-List, retrieve, update, cancel, confirm, and check in appointments for a business branch; create, cancel, activate, and note bookings; and check real-time appointment-slot availability for a set of requested services. The backbone of Phorest's bespoke online-booking use case. Confirmed against Phorest's public API reference.
+#### Plans and pricing (1)
 
-- **Human URL:** [https://developer.phorest.com/reference/getappointments](https://developer.phorest.com/reference/getappointments)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
+Published plans, tiers and prices.
 
-#### Tags
+- [Phorest Plans Pricing](https://apis.io/plans/phorest/phorest-plans-pricing/)
 
-- Appointments
-- Bookings
-- Scheduling
-- Availability
+#### Rate limits (1)
 
-#### Properties
+Published request limits.
 
-- [Documentation](https://developer.phorest.com/docs/common-api-use-cases)
-- [API Reference](https://developer.phorest.com/reference/getappointments)
-- [Documentation](https://developer.phorest.com/docs/list-of-errors-seen-on-appointments-bookings-endpoints)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Phorest Rate Limits](https://apis.io/rate-limits/phorest/phorest-rate-limits/)
 
-### Phorest Staff API
+#### FinOps (1)
 
-List and retrieve staff (individually or in batch) per branch, read staff work time tables (rota), and create, retrieve, update, and delete staff breaks. Confirmed against Phorest's public API reference; the staff work time tables endpoint does not support pagination and always returns the full date-range result set.
+What the API costs to run, by operation.
 
-- **Human URL:** [https://developer.phorest.com/reference/getstafflist](https://developer.phorest.com/reference/getstafflist)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
+- [Phorest Finops](https://apis.io/finops/phorest/phorest-finops/)
 
-#### Tags
+## Where to find this API
 
-- Staff
-- Rota
-- Breaks
-- Work Time Tables
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-#### Properties
-
-- [API Reference](https://developer.phorest.com/reference/getstafflist)
-- [API Reference](https://developer.phorest.com/reference/getstaffworktimetables)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Phorest Services API
-
-List services, service categories, service packages, and service special offers for a branch, including price and duration data used to build booking flows and quotes. Confirmed against Phorest's public API reference.
-
-- **Human URL:** [https://developer.phorest.com/reference/getservices_1](https://developer.phorest.com/reference/getservices_1)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
-
-#### Tags
-
-- Services
-- Service Categories
-- Packages
-- Special Offers
-
-#### Properties
-
-- [API Reference](https://developer.phorest.com/reference/getservices_1)
-- [API Reference](https://developer.phorest.com/reference/getservicecategories)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Phorest Products & Purchases API
-
-List retail products with stock level, pricing, and barcode data; record purchases (appointments, products, courses, or vouchers) against a client and branch, which updates stock automatically; read inventory transactions and till balances; and perform manual stock adjustments. Used for third-party e-commerce (WooCommerce/Shopify-style) integrations. Confirmed against Phorest's public API reference. Purchase creation also emits an event onto a partner-provisioned AWS SQS queue per Phorest's sqs-sample reference project.
-
-- **Human URL:** [https://developer.phorest.com/reference/createpurchase](https://developer.phorest.com/reference/createpurchase)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
-
-#### Tags
-
-- Products
-- Retail
-- Purchases
-- Point of Sale
-- Inventory
-
-#### Properties
-
-- [Documentation](https://support.phorest.com/hc/en-us/articles/360018547979-Integrating-3rd-Party-E-Commerce-Solutions)
-- [API Reference](https://developer.phorest.com/reference/createpurchase)
-- [API Reference](https://developer.phorest.com/reference/getproducts)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Phorest Vouchers & Loyalty API
-
-Create, retrieve, list, and update the balance of gift vouchers scoped to a business, and adjust a client's loyalty points balance. Phorest does not process the voucher purchase payment itself - integrators build the purchase web experience and payment step, then write the voucher via this API. Confirmed against Phorest's public API reference.
-
-- **Human URL:** [https://developer.phorest.com/reference/getvouchers](https://developer.phorest.com/reference/getvouchers)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
-
-#### Tags
-
-- Vouchers
-- Gift Cards
-- Loyalty
-- Rewards
-
-#### Properties
-
-- [Documentation](https://developer.phorest.com/docs/common-api-use-cases)
-- [API Reference](https://developer.phorest.com/reference/getvouchers)
-- [API Reference](https://developer.phorest.com/reference/createvoucher)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Phorest Branches API
-
-List a business's branches (locations), each branch's work time table, treatment rooms, equipment/machines, and tax rates - the reference data most other Phorest endpoints are scoped underneath. Confirmed against Phorest's public API reference.
-
-- **Human URL:** [https://developer.phorest.com/reference/getbranches](https://developer.phorest.com/reference/getbranches)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
-
-#### Tags
-
-- Branches
-- Locations
-- Rooms
-- Machines
-- Tax Rates
-
-#### Properties
-
-- [API Reference](https://developer.phorest.com/reference/getbranches)
-- [API Reference](https://developer.phorest.com/reference/getbranchworktimetable)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Phorest Reporting & Reviews API
-
-Create and poll asynchronous CSV export jobs for raw sale-level reporting over a date range, list and retrieve client reviews for syndication to external review platforms, list sales-fee records, and read marketing leads and lead statistics. Confirmed against Phorest's public API reference.
-
-- **Human URL:** [https://developer.phorest.com/reference/createcsvexportjob](https://developer.phorest.com/reference/createcsvexportjob)
-- **Base URL:** `https://api-gateway-eu.phorest.com/third-party-api-server/api/business`
-
-#### Tags
-
-- Reporting
-- CSV Export
-- Reviews
-- Leads
-- Sale Fees
-
-#### Properties
-
-- [Documentation](https://developer.phorest.com/docs/common-api-use-cases)
-- [API Reference](https://developer.phorest.com/reference/createcsvexportjob)
-- [API Reference](https://developer.phorest.com/reference/getreviewlist)
-- [OpenAPI](openapi/phorest-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/phorest.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/phorest.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/phorest)
-- [LinkedIn](https://www.linkedin.com/company/phorest)
 - [Website](https://www.phorest.com/)
 - [Documentation](https://developer.phorest.com/docs/getting-started)
-- [Plans](plans/phorest-plans-pricing.yml)
-- [Rate Limits](rate-limits/phorest-rate-limits.yml)
-- [Fin Ops](finops/phorest-finops.yml)
+- [Blog](https://www.phorest.com/blog/feed/)
+- [GitHub](https://github.com/phorest)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 28.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 26.2 |
+| Access clarity | 15.8 |
+
+**Agent readiness 19.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/phorest/](https://apis.io/providers/phorest/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Phorest: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/phorest/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
